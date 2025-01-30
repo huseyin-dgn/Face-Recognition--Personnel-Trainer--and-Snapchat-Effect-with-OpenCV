@@ -1,0 +1,1659 @@
+OPEN CV KÜTÜPHANESİ KULLANIMLARI ;
+
+******************************************************************
+
+pip install opencv-python = KURULUM 
+
+******************************************************************
+
+/*/*/ RESİM İÇE AKTARMA /*/*/
+
+resim=cv2.imread("Dosya Yolu") :: Resimi pycharm a tanıttık.
+
+resim=cv2.imread("Dosya Yolu",0) :: Resimi siyah beyaz hale getirir.
+
+cv2.imshow("Başlık",resim( python a tanıttığımız resim )) :: Resimi göstermek için.
+
+cv2.waitKey(x) :: "x" e basıldığında resimi kapattık.
+
+cv2.destroyerWindow("resim penceresi") :: Resim penceresini kapat.
+
+cv2.destroyWindow() :: Hepsini kapatır.
+
+!!!!
+
+ Her harfin hexadecimal koduna göre işlem yapmamız gerekli. Yukarıda tanımlanan cv2.waitKey() fonksiyonunu bir değere atarsak ve printlersek karşılaşacağız değer :
+o harfin hexadecimal kodu olacaktır.
+
+!!!!
+  
+k=cv2.waitKey()
+
+if k==27:
+   print("ESC tuşuna basıldı...")
+
+elif k==ord("q")
+   print ("q tuşuna basıldı ve kayıt edildi...")
+   cv2.imwrite("yenifoto.jpg", resim ( python a tamamlanan fotoğraf))
+
+
+plt.imshow(resim,cmap="gray")
+plt.show()                     == MATPLOTLİP ile gösterimi
+
+
+
+* Eğer opencv içinde yapmak istersek ;;
+
+cv2.namedWindow("resim")
+cv2.imshow("resim",resim);
+
+ifadesi kullanılabilir.
+
+--- BAŞKA OPSİYONLARI İSE ŞUNLARDIR ---
+
+cv2.namedWindow("resim",cv2.WINDOW_NORMAL)
+cv2.imshow("resim",resim);
+
+* Burada normal tagı kullanılarak pencerede oynama sağlanabilir.
+
+******************************************************************
+
+/*/*/ Videoyu İçe Aktarma /*/*/
+
+import cv2
+import time
+
+#video ismi
+
+video_name="videoadı.mp4"
+
+cap=cv2.VideoCapture(video_name)
+
+print("Genişlik ", cap.get(3)) # Genişlik parametresi
+print("Yükseklik ", cap.get(4)) # Yükseklik parametresi
+
+if cap.isOpened() == False:
+    print("Hata")
+    
+ret , frame = cap.read() # ret = başarılı mı değil mi
+ 
+while True:                        
+    if ret== True:
+        time.sleep(0.01) # kullanmaz isek çok hızlı akar.
+        
+        cv2.imshow("Video", frame)
+    else:
+        break
+    
+    if cv2.waitKey(1) & 0xFF == ord("q"):
+        break
+
+cap.release() # Video yakalamayı bırak
+cv2.destroyAllWindows()
+
+--- Kamera Ayarlarını şu şekilde değiştirebilirsiniz.
+
+cam.set(3,320)
+cam.set(4,240)
+
+******************************************************************
+
+/*/*/ KAMERA AÇMA VE VİDEO KAYDI /*/*/ 
+
+import cv2
+
+# capture 
+cap = cv2.VideoCapture(0) # harici varsa 1 
+
+width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
+print(width,height)
+
+# video kaydet
+
+writer = cv2.VideoWriter("videokaydı.mp4", cv2.VideoWriter_fourcc(*"DIVX"), 20, (width, height))
+# 20 fpsli divx codecli, yükseklik ve genişlik oranlı video kaydı
+# fourcc = çerçeveleri sıkıştırmak için kullanılan koddur
+
+while True:
+    ret, frame = cap.read()
+    cv2.imshow("Video", frame)
+    
+    writer.write(frame)
+    
+    if cv2.waitKey(1) &0xFF == ord("q") : 
+        break
+    
+cap.release()
+writer.release()
+cv2.destroyAllWindows()
+
+******************************************************************
+
+/*/*/ BOYUTLANDIRMA VE KIRPMA /*/*/
+
+import cv2
+
+# Resize
+
+img= cv2.imread("messi.jpeg")
+print("Resim Boyutu : ", img.shape) # Dizi boyutlarını gösterir.
+cv2.imshow("orijinal", img)
+
+yeni_İmg=cv2.resize((img), (500,500)) # Oluşturrulan yeni resmin piksel boyutunu gösterir.
+
+print("Resize : " , yeni_İmg.shape)
+cv2.imshow("Yeni", yeni_İmg)
+
+
+# Kırpma
+
+kırpılan= img[:200,:300] # yükseklik , genişlik
+cv2.imshow("Kırpılan", kırpılan)
+cv2.waitKey(0)
+
+******************************************************************
+
+/*/*/ Metin Ve Şekil Ekleme /*/*/
+
+import cv2
+import numpy as np 
+
+# resim oluştur 
+img = np.zeros((512,512,3), np.uint8) # Siyah bir resim oluştu. Eğer zeros değil ones yaparsak beyaz olur.
+
+print(img.shape)
+
+cv2.imshow("siyah", img)
+
+# -- Çizgi Çizdirmek -- 
+
+cv2.line(img,(0,0),(512,512),(0,255,0)) # (resim , başlangıç noktası , bitiş noktası , renk)
+
+# Opencv RGB değil BGR renk uzayına sahiptir. Blue Green Red olarak tanımlanır.
+# Yani (0,255,0) rengi yeşil :
+# (255,0,0) rengi maviye eşittir.
+
+cv2.imshow("Çizgi", img)
+
+# -- Dikdörtgen Çizdirmek -- 
+
+# (Resim , Başlangıç-Bitiş , Renk)
+cv2.rectangle(img,(100,100),(256,256) , (255,0,0),cv2.FILLED) # Filled içini doldurur.
+cv2.imshow("Dikdörtgen", img)
+
+# -- Çember Çizdirmek -- 
+
+# (resim , merkez , yarıçap ,  renk) 
+cv2.circle(img, (300,300), 45, (0,0,255),cv2.FILLED)
+cv2.imshow("Çember", img)
+
+# -- Metin Eklemek --
+
+# ( Resim , başlangıç noktası , font , kalınlık , renk)
+cv2.putText(img, "Resim", (350,350), cv2.FONT_ITALIC, 1, (255,255,255))
+cv2.imshow("Metin", img)
+
+# Başlangıç Noktası Metinin altından başlar.Yani resim yazılan yerdde başlangıç noktası R harfinin altından başlar.Bu şekilde kontrol etmek daha doğru olacaktır.
+
+cv2.waitKey(0)
+
+******************************************************************
+/*/*/ Görüntülerin Birleştirilmesi /*/*/
+
+import cv2 
+import numpy as np
+
+img = cv2.imread("messi.jpeg")
+
+# Yatay
+hor = np.hstack((img,img))
+cv2.imshow("Horizontal", hor)
+
+# Dikey
+ver = np.vstack((img,img))
+cv2.imshow("Vertical", ver)
+
+cv2.waitKey(0)
+
+******************************************************************
+/*/*/ Perspektif Çarpıtma /*/*/
+
+import cv2 
+import numpy as np
+
+# içe aktar 
+img= cv2.imread("messi,jpeg")
+
+width = 400
+heigh = 400
+
+pts1 = np.float32([230,1],[1,472],[540,150], [338,617]) # Yamuk duran cismin köşelerini aldık.
+pts2 = np.float32([(0,0), [0,heigh], [width,0] , [width,heigh]])
+
+** pts1: Orijinal görüntüdeki yamuk duran cismin dört köşe koordinatlarıdır. (x, y) olarak belirtilir.
+ (230, 1), (1, 472), (540, 150), (338, 617)
+** pts2: Hedef görüntünün köşe noktalarıdır. Görüntünün düz bir dikdörtgen hale gelmesi için (0, 0), (0, height), (width, 0), (width, height) koordinatlarına dönüştürülmek isteniyor.
+
+matrix = cv2.getPerspectiveTransform(pts1, pts2)
+
+** cv2.getPerspectiveTransform: pts1 ve pts2 noktalarını kullanarak bir dönüşüm matrisi oluşturur.
+Bu matris, perspektif dönüşümü gerçekleştirmek için gerekli matematiksel dönüşüm bilgileridir.
+matrix içinde 3x3 bir matris saklanır.
+
+print(matrix)
+
+cv2.warpPerspective(img, matrix, (width, heigh))
+cv2.imshow("Nihai Resim", img)
+
+******************************************************************
+/*/*/ Görüntü Karıştırmak /*/*/
+
+import cv2
+import matplotlib.pyplot as plt
+
+
+img1= cv2.imread("img1.jpg")
+img1 = cv2.cvtColor((img1),cv2.COLOR_BGR2RGB ) # BGR A çevirme
+
+img2= cv2.imread("img2.jpg")
+img1 = cv2.cvtColor((img2),cv2.COLOR_BGR2RGB )
+
+plt.figure()
+plt.imshow(img1) # Matplotlip açma kapama kodu 
+
+plt.figure()
+plt.imshow(img2)
+
+print(img1.shape)
+print(img2.shape)
+
+img1= cv2.resize(img1, (600,600)) # Boyutunu istenilen düzeye getirdik
+print(img1.shape) # Boyutları kontrol etmek için yazdırdık
+
+img2= cv2.resize(img2, (600,600))
+print(img2.shape)   
+
+plt.figure()
+plt.imshow(img1)
+
+plt.figure()
+plt.imshow(img2)
+
+# Karıştırmış resim = Alfa * resim1 + beta * resim2
+
+blended = cv2.addWeighted(img1, 0.5, img2, 0.4, 0) # resim1 , alfa ,  resim2 , beta , gamma
+
+******************************************************************
+
+/*/*/ Görüntü Eşikleme /*/*/
+
+
+import cv2
+import matplotlib.pyplot as plt
+
+# Resmi içe aktar
+resim = cv2.imread("messi.jpeg")  # Resmi dosyadan yükle
+resim = cv2.cvtColor(resim, cv2.COLOR_BGR2GRAY)  # Resmi gri tonlamaya (grayscale) dönüştür
+
+# Gri tonlama: Resmin renkli versiyonu yerine sadece siyah-beyaz (gri tonlama) değerlerini kullanır.
+# Bu işlem, görüntüyü analiz etmeyi ve işlemeyi daha hızlı hale getirir.
+
+# Resmi görselleştir
+plt.figure()
+plt.imshow(resim, cmap="gray")  # Resmi gri tonlarda görüntüle
+plt.axis("off")  # Eksenleri kapat
+plt.show()  # Görüntüyü göster
+
+# Eşikleme işlemi (Thresholding)
+
+_, trash_img = cv2.threshold(resim, 60, 255, cv2.THRESH_BINARY)
+
+# Threshold (eşikleme): Piksel değerlerini belirli bir eşik değerine göre sınıflandırır.
+# - İlk parametre: Gri tonlamalı giriş görüntüsü
+# - İkinci parametre (60): Eşik değeri. Piksel değeri bu eşikten yüksekse, beyaz (255) yapılır.
+# - Üçüncü parametre (255): Maksimum piksel değeri. Eşik aşılınca piksel bu değeri alır (beyaz).
+# - Dördüncü parametre (cv2.THRESH_BINARY): İkili eşikleme yöntemi. Piksel değerlerini yalnızca iki seviyeye (0 veya 255) çevirir.
+# - Dördüncü parametre için cv2.THRESH_INV kullanılabilir.60 dan küçük olanları beyaz geri kalanları siyah hale getirir.
+
+# Eşiklenen resmi görselleştir
+
+plt.figure()
+plt.imshow(trash_img, cmap="gray")  # İşlenmiş resmi gri tonlarda görüntüle
+plt.axis("off")  # Eksenleri kapat
+plt.show()  # Görüntüyü göster
+
+# Uyarlamalı Eşik Değeri
+
+thresh_img2 = cv2.adaptiveThreshold(
+    resim,                      # Giriş resmi (genellikle gri tonlamalı olmalı)
+    255,                      # Maksimum piksel değeri
+    cv2.ADAPTIVE_THRESH_MEAN_C,  # Kullanılacak adaptif yöntem (MEAN)
+    cv2.THRESH_BINARY,        # Eşikleme türü (Binary thresholding)
+    11,                       # Blok boyutu (tek sayı olmalı, örneğin 11)
+    8                         # Sabit değer (eşik değerini azaltır/artırır)
+)
+
+plt.figure()
+plt.imshow(thresh_img2, cmap="gray")  # Uyarlamalı eşikleme işlemini görselleştir
+plt.axis("off")  # Eksenleri kapat
+plt.show()  # Görüntüyü göster
+
+******************************************************************
+
+/*/*/ Bulanıklaştırmak /*/*/
+
+
+#-- 1. Averaging (Ortalama Bulanıklaştırma) --  
+# ** Komşu piksellerin ortalaması alınır.
+
+    # blurred = cv2.blur(image, (5, 5))
+
+#-- 2. Gaussian Blur (Gauss Bulanıklaştırma) --  
+# ** Piksel değerlerine Gauss ağırlık fonksiyonu uygulanır.
+
+    #blurred = cv2.GaussianBlur(image, (5, 5), 0)
+
+#-- 3. Median Blur (Medyan Bulanıklaştırma) --  
+# ** Komşu piksellerin medyanı alınır. Gürültüleri (özellikle tuz-biber gürültüsü) azaltmada etkilidir.
+
+    #blurred = cv2.medianBlur(image, 5)
+
+import cv2
+import matplotlib.pyplot as plt
+import warnings
+import numpy as np
+
+warnings.filterwarnings("ignore")  # Uyarıları görmezden gel
+
+# Görüntü okuma ve görselleştirme
+
+img = cv2.imread("messi.jpeg")  # Resmi oku
+img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)  # BGR'den RGB'ye çevir
+
+plt.figure()
+
+plt.imshow(img) 
+plt.axis("off")  # Eksenleri kaldır
+plt.title("Orijinal")
+plt.show()  # Görüntüyü göster
+
+# 1-) Ortalama Bulanıklaştırma
+
+dst2 = cv2.blur(img, ksize=(3, 3))  # Ortalama bulanıklaştırma uygula
+plt.figure()
+plt.imshow(dst2)  # Sonucu göster
+plt.axis("off")
+plt.show()
+
+# 2-) Gaussian Blur
+
+gb = cv2.GaussianBlur(img, ksize=(3, 3), sigmaX=7)  # Gaussian bulanıklaştırma uygula
+
+#-- sigmaX: Yatay eksendeki Gauss dağılımının standart sapmasıdır.sigmaX yatay eksendeki "yayılma" miktarını belirler
+#-- sigmaY: Dikey eksendeki Gauss dağılımının standart sapmasıdır. 
+#-- Eğer sigmaY belirtilmezse, sigmaX değeri ile aynı olur.
+
+plt.figure()
+plt.imshow(gb)
+plt.axis("off")
+plt.show()
+
+# Gaussian Filtresine Gürültü Ekler
+
+def gaussian(image):
+    row, col, ch = image.shape  # Görüntünün boyutlarını al.(satır, sütun, renk kanalları)
+    mean = 0 # Gaussian gürültüsünün ortalaması.
+    var = 0.05  # Varyans değeri.
+    sigma = var ** 0.5  # Varyansın karekökü ile standart sapmayı hesapla.Sigma arttıkça, gürültü daha geniş bir alanda yayılır.
+
+    
+    gauss = np.random.normal(mean, sigma, (row, col, ch))  # Gaussian gürültüsü üret
+    gauss = gauss.reshape(row, col, ch)  # Gürültü dizisini orijinal görüntü boyutlarına uydur
+    noisy = image + gauss  # Gürültüyü görüntüye ekle
+    return noisy  # Gürültülü görüntüyü döndür
+
+# Normalize et
+
+img = cv2.imread("messi.jpeg")
+img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) / 255  # Görüntüyü normalize et
+
+plt.figure()
+plt.imshow(img)  # Görüntüyü göster
+plt.axis("off")  # Eksenleri kaldır
+plt.title("Orijinal")
+plt.show()
+
+# Gauss gürültüsünü ekle ve sonucu göster
+
+gaussiannoise = gaussian(img)
+plt.figure()
+plt.imshow(gaussiannoise)  # Gürültülü görüntüyü göster
+plt.axis("off")  # Eksenleri kaldır
+plt.title("Gauss Gürültüsü Eklendi")
+plt.show()
+
+# 3-) Medyan Blur
+
+mb = cv2.medianBlur((img * 255).astype('uint8'), ksize=3)  # Normalize edilmiş görüntü 8-bit formatına çevrildi
+
+
+if img is None:
+    raise ValueError("Görüntü yüklenemedi. Lütfen dosya yolunu kontrol edin.")
+
+plt.figure()
+plt.imshow(mb)
+plt.axis("off")
+plt.show()
+
+
+# Tuz Karabiber ekleme
+
+def salt(image):
+    row, col , ch = image.shape  # Görüntünün boyutlarını al (satır, sütun, renk kanalları)
+
+    s_vs_p = 0.5  # Siyah-beyaz oranı (0.5: eşit sayıda siyah ve beyaz nokta)
+    amount = 0.004  # Görüntüdeki gürültü oranı (daha büyük değer, daha fazla gürültü ekler)
+    
+    noisy = np.copy(image)  # Orijinal görüntüyü değiştirmemek için bir kopyasını oluştur
+
+    # **Salt (Beyaz Noktacıklar)** 
+
+    num_salt = np.ceil(amount * image.size * s_vs_p)  # Eklenmesi gereken toplam beyaz piksel sayısını hesapla
+    cords = [np.random.randint(0, i - 1, int(num_salt)) for i in image.shape]  
+    # Rastgele beyaz noktaların koordinatlarını oluştur (satır, sütun ve kanal için)
+    noisy[cords] = 1  # Bu koordinatlardaki piksellere tam beyaz değerini (1) ata
+
+    # **Pepper (Siyah Noktacıklar)**
+
+    num_paper = np.ceil(amount * image.size * (1 - s_vs_p))  # Eklenmesi gereken toplam siyah piksel sayısını hesapla
+    cords = [np.random.randint(0, i - 1, int(num_paper)) for i in image.shape]  
+    # Rastgele siyah noktaların koordinatlarını oluştur (satır, sütun ve kanal için)
+    noisy[cords] = 0  # Bu koordinatlardaki piksellere tam siyah değerini (0) ata
+
+    return noisy  # Gürültü eklenmiş görüntüyü döndür
+
+# **Gürültüyü uygula ve görüntüyü görselleştir**
+
+sp_image = salt(img)  # Fonksiyonu çağırarak görüntüye tuz ve karabiber gürültüsü ekle
+plt.figure()  # Yeni bir şekil oluştur
+plt.imshow(mb)  # Gürültü eklenmiş görüntüyü göster
+plt.axis("off")  # Görüntünün etrafındaki eksenleri kaldır
+plt.show()  # Görüntüyü ekranda göster
+plt.title("Sp IMAGE")  # Başlık ekle
+
+******************************************************************
+
+/*/*/ Gradyanlar /*/*/
+
+# Gradyan, bir fonksiyonun değişim hızını gösteren bir matematiksel kavramdır. Görüntü işleme bağlamında ise gradyan, bir görüntüdeki yoğunluk (gri tonları) değişimlerini ölçmek için kullanılır. Yani, bir pikselin etrafındaki komşu piksellere göre değer değişimlerini analiz eder. Genelde bu değişimlerin büyük olduğu bölgeler, kenarları (edge) veya önemli yapıları (örneğin, nesnelerin sınırlarını) belirler.
+
+import cv2 
+import matplotlib.pyplot as plt
+
+img= cv2.imread("messi.jpeg",0)
+plt.figure()
+plt.imshow(img, cmap="gray")
+plt.axis("off")
+plt.title("Orijinal İmage")
+
+# X Gradyanı ;
+
+# -- ( Fotoğraf , Output derinliği , x yönündek, , y yönündeki , k-size )
+ 
+# ddepth=cv2.CV_16S: Çıktı görüntüsünün veri tipini belirtir. Bu durumda 16 bit signed int olarak seçilmiş.
+
+sobel_x=cv2.Sobel(img, ddepth=cv2.CV_16S, dx=1, dy=0, ksize=5)
+plt.figure()
+plt.imshow(img, cmap="gray")
+plt.axis("off")
+plt.title("X İmage")
+
+# Y Gradyanı 
+
+# -- ( Fotoğraf , Output derinliği , x yönündek, , y yönündeki , k-size )
+
+sobel_x=cv2.Sobel(img, ddepth=cv2.CV_16S, dx=0, dy=1, ksize=5)
+plt.figure()
+plt.imshow(img, cmap="gray")
+plt.axis("off")
+plt.title("Y İmage")
+
+# Her ikisi için de (X,Y)
+
+laplacian= cv2.laplacian(img , ddepth=cv2.CV_16S)
+plt.figure()
+plt.imshow(laplacian, cmap="gray")
+plt.axis("off")
+plt.title("Laplacian İmage")
+
+******************************************************************
+
+/*/*/ Morfolojik İşlemler /*/*/
+
+
+# ------------------------ MORFOLOJİK İŞLEMLER AÇIKLAMASI ------------------------
+#
+# Erozyon = Ön plandaki nesnenin sınırlarını aşındırır.
+#
+# Genişleme = Görüntüdeki beyaz (veya açık renkli) alanları genişletir. Kernel, görüntü üzerinde kaydırılır ve altında kalan alan kontrol edilir.
+# Kernelin altında en az bir beyaz piksel varsa, hedef piksel beyaz yapılır. Bu işlem, nesneleri büyütmek ve küçük delikleri (karanlık alanları) kapatmak için kullanılır.
+#
+# Açma = Erozyon + Genişleme. Beyaz gürültü azaltıcı etkiye sahiptir.
+#
+# Kapatma = Genişleme + Erozyon. Ön plandaki siyah noktaları kapatmak için kullanılır.
+#
+# Morfolojik Gradyan = Genişleme ve erozyon arasındaki farktır
+
+
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
+
+img = cv2.imread("img.jpg", 0)
+plt.figure()
+plt.imshow(img , cmap="gray")
+plt.axis("off")
+plt.title("Orjinal Resim")
+
+# -- EROZYON -- 
+
+# 5x5 boyutunda bir kernel (filtre matrisi) oluşturuluyor.
+# Kernelin tüm elemanları 1, veri tipi ise uint8 (8 bitlik tamsayı).
+kernel = np.ones((5, 5), dtype=np.uint8)
+
+# cv2.erode() fonksiyonu ile görüntü üzerinde erozyon işlemi uygulanıyor.
+# Parametreler:
+# - img: Giriş görüntüsü (bu görüntü daha önceden yüklenmiş olmalı).
+# - kernel: 5x5 boyutundaki filtre matrisi.
+# - iterations=1: Erozyon işleminin bir kez uygulanacağını belirtiyor.
+result = cv2.erode(img, kernel, iterations=1)
+
+# -- GENİŞLEME -- 
+
+# Kernel: Genişletme işlemini gerçekleştirmek için kullanılan 5x5 matris.
+result2 = cv2.dilate(img, kernel, iterations=1)
+
+
+# -- AÇILMA -- 
+
+# * * Öncelikle bir beyaz gürültüye ihtiyaç vardır.
+# 1. Beyaz gürültü (white noise) matrisinin oluşturulması:
+# - np.random.randint(0, 2, size=img.shape[:2]):
+#   - 0 ile 2 arasında rastgele tam sayılar üretir (0 veya 1 olabilir).
+#   - Üretilen matrisin boyutu, giriş görüntüsünün (img) yüksekliği ve genişliği ile aynı olur (2D bir matris).
+whitenoise = np.random.randint(0, 2, size=img.shape[:2])
+
+# 2. Beyaz gürültüyü ölçeklendirme:
+# - whitenoise * 255:
+#   - 0'ları siyah (0), 1'leri beyaz (255) yapar. Böylece matris tamamen siyah ve beyaz piksellerden oluşur.
+#   - Bu, beyaz gürültü etkisi yaratır.
+whitenoise = whitenoise * 255
+
+noise_img = whitenoise + img  # Gürültülü resmi elde ettik.
+
+# Şimdi bu gürültülü resmi açma metodu ile normale çevirelim.
+opening = cv2.morphologyEx(noise_img.astype(np.float32), cv2.MORPH_OPEN, kernel)
+
+# Neden astype(np.float32) kullanıyoruz?:
+# OpenCV'nin bazı fonksiyonları (özellikle morfolojik işlemler gibi) genellikle kayan nokta hassasiyeti gerektirir.
+# Yani, işlem yaparken tam sayı (integer) veri tiplerinden ziyade kayan nokta (float) türleriyle işlem yapmanız gerekebilir.
+# Bu, işlem doğruluğunu artırır.
+
+
+# -- KAPATMA -- 
+
+# Siyah gürültü eklemek için aşağıdaki yöntemi uyguladık.
+blacknoise = np.random.randint(0, 2, size=img.shape[:2])
+blacknoise = blacknoise * -255
+
+black_image = blacknoise + img
+
+closed = cv2.morphologyEx(noise_img.astype(np.float32), cv2.MORPH_CLOSE, kernel)
+
+
+# -- GRADYAN -- 
+
+# cv2.MORPH_GRADIENT morfolojik işlemi, genellikle görüntülerdeki kenarları belirginleştirmek
+# ve yapısal farkları ortaya çıkarmak için kullanılır. Gradient terimi, görüntüdeki değişimlerin ölçülmesi anlamına gelir
+# ve bu işlem, bir nesnenin çevresindeki geçiş bölgelerindeki farkları vurgular. 
+gradient = cv2.morphologyEx(img, cv2.MORPH_GRADIENT, kernel)
+
+
+******************************************************************
+
+/*/*/ Histogramlar /*/*/
+
+import cv2  
+import numpy as np  
+import matplotlib.pyplot as plt  
+
+# Resmi içe aktar (BGR formatında yüklenir)
+img = cv2.imread("img.jpg")
+
+# OpenCV'nin varsayılan BGR formatını RGB formatına çevirerek görselleştirme için hazırla
+img_vis = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+plt.figure() 
+plt.imshow(img_vis)  
+
+# Görüntünün boyutlarını yazdır (yükseklik, genişlik, kanal sayısı)
+print(img.shape)  # .shape bir özellik olduğu için `()` değil, doğrudan kullanılır.
+
+# Gri ton histogramını hesapla
+# - channels=[0]: 0. kanal (mavi kanal) üzerinde işlem yapılır.
+# - mask=None: Tüm görüntü işlenir, herhangi bir maskeleme uygulanmaz.
+# - histSize=[256]: Histogramın 256 seviyeye bölünmesini sağlar (0-255).
+# - ranges=[0, 256]: Piksel değerlerinin aralığı (0-255).
+img_hist = cv2.calcHist([img], channels=[0], mask=None, histSize=[256], ranges=[0, 256])
+
+# Histogramın boyutunu yazdır
+print(img_hist.shape)  # (256, 1) şeklinde bir çıktı alırız. 256 gri ton seviyesinin sıklıkları.
+
+# Histogramı görselleştir
+plt.figure()  # Yeni bir grafik oluştur
+plt.plot(img_hist)  # Histogram verisini çiz
+plt.title("Grayscale Histogram")  # Başlık ekle
+plt.xlabel("Pixel Value")  # X ekseni etiketi
+plt.ylabel("Frequency")  # Y ekseni etiketi
+
+# Renk kanallarının (mavi, yeşil, kırmızı) histogramlarını hesapla ve görselleştir
+color = ("b", "g", "r")  # OpenCV'nin renk sıralaması: BGR
+plt.figure()  
+
+for i, c in enumerate(color):  # Her renk kanalı için döngü
+    # İlgili renk kanalının histogramını hesapla
+    hist = cv2.calcHist([img], channels=[i], mask=None, histSize=[256], ranges=[0, 256])
+    plt.plot(hist, color=c)  # Histogramı çiz ve rengi ayarla (b: mavi, g: yeşil, r: kırmızı)
+    plt.title("Color Histogram") 
+    
+    # 0 - mavi
+    # 1 - yeşil
+    # 2 - kırmızı
+    
+plt.show()  
+
+# -- Maskeleme İşlemi -- 
+
+# Resmi okuma ve renk formatını değiştirme (BGR -> RGB)
+golden_gate = cv2.imread("img.png")  # "img.png" adlı resmi okur.
+golden_gate_vis = cv2.cvtColor(golden_gate, cv2.COLOR_BGR2RGB)  # Resmi BGR'den RGB'ye dönüştürür, matplotlib için uygundur.
+
+# Resmin boyutunu yazdırır: Yükseklik, Genişlik, Kanal Sayısı
+print(golden_gate.shape)  # Resmin boyutlarını (yükseklik, genişlik, kanal sayısı) yazdırır.
+
+# Maske oluşturma: Resmin yüksekliği ve genişliğiyle bir maskenin sıfırlarla doldurulmuş hali.
+mask = np.zeros(golden_gate.shape[:2], np.uint8)  # Resmin yüksekliği ve genişliği kadar, 0'larla bir maske oluşturur.
+plt.figure(), plt.imshow(mask, cmap="gray")  # Maskeyi gri tonlarında görselleştirir, tüm alan siyah (0) olacak.
+
+# Maskenin belirli bir bölgesini beyaz (255) yapar: Bu bölgeyi maskelemek için kullanacağız.
+mask[1500:2000, 1000:2000] = 255  # Maskenin 1500 ile 2000 arasındaki satırlar ve 1000 ile 2000 arasındaki sütunlar, beyaz (255) yapılır.
+plt.figure(), plt.imshow(mask, cmap="gray")  # Maskeyi tekrar görselleştirir, bu kez beyaz bölgeyi gösterir.
+
+# Maskeyi, orijinal görüntüye uygulama: Sadece maskelenmiş bölgeyi gösterir.
+masked_img_vis = cv2.bitwise_and(golden_gate_vis, golden_gate_vis, mask=mask)  # Maskeyi görüntüye uygular.
+plt.figure(), plt.imshow(masked_img_vis, cmap="gray")  # Maskelenmiş görüntüyü görselleştirir.
+
+# Maskeyi uyguladıktan sonra tekrar aynı işlemi yaparak masked_img değişkenine atar.
+masked_img = cv2.bitwise_and(golden_gate_vis, golden_gate_vis, mask=mask)  # Aynı işlemi tekrardan uygular.
+
+# Maskelenmiş görüntü için histogram hesaplama: Mavi kanal (channels=[0]) üzerinden hesaplama yapılır.
+img_hist = cv2.calcHist([golden_gate], channels=[0], mask=mask, histSize=[256], ranges=[0, 256])  # Mavi kanalın histogramını hesaplar.
+
+# Histogramı çizme: Ancak burada `masked_img_vis`'i çizmek yerine histogram çizimi yapılmalıdır.
+plt.figure(), plt.plot(img_hist) 
+
+
+# -- Histogram Eşitleme  (Kontrast arttır) --  
+
+# 1. Gri tonlamalı resmi okuma ve görselleştirme
+img = cv2.imread("img.png", 0)  # Resmi gri tonlamalı olarak okur (0 parametresi gri ton okuma anlamına gelir).
+plt.figure(), plt.imshow(img, cmap="gray")  # Gri tonlamalı resmi gri tonlarında görselleştirir.
+
+# 2. Gri tonlamalı resmin histogramını hesaplama ve çizme
+img_histogram = cv2.calcHist([img], channels=[0], mask=None, histSize=[256], ranges=[0, 256])  
+# Görüntüdeki gri tonlarının histogramını hesaplar (kanal 0, 256 ton, 0-256 arası).
+plt.figure(), plt.plot(img_histogram)  # Histogramı çizer.
+
+# 3. Histogram Eşitleme İşlemi
+eq_hist = cv2.equalizeHist(img)  # Görüntüye histogram eşitleme işlemi uygular. Bu, daha iyi kontrast ve ton dağılımı sağlar.
+plt.figure(), plt.imshow(eq_hist, cmap="gray")  # Eşitlenmiş görüntüyü gri tonlarında görselleştirir.
+
+# 4. Eşitlenmiş görüntünün histogramını hesaplama ve çizme
+eq_img_histogram = cv2.calcHist([eq_hist], channels=[0], mask=None, histSize=[256], ranges=[0, 256])  
+# Eşitlenmiş görüntünün histogramını hesaplar.
+plt.figure(), plt.plot(eq_img_histogram)  # Eşitlenmiş görüntünün histogramını çizer.
+
+# ------------ ÖNEMLİ NOTLAR ---------------
+
+#- histSize=256 → Her bin bir piksel değerini temsil eder (ör. 0-0, 1-1, ..., 255-255).
+#- histSize=512 → Her bin 0.5 piksel aralığını temsil eder (ör. 0-0.5, 0.5-1, ..., 254.5-255).
+
+#- Kodda mavi kanalın (channels=[0]) kullanılmasının nedeni, OpenCV'nin varsayılan olarak görüntüleri BGR (Blue, Green, Red) formatında yüklemesidir. Bu yüzden channels=[0], görüntünün mavi kanalını temsil eder. Ancak bunun seçilmiş olması bir zorunluluk değildir; her bir renk kanalı (mavi, yeşil, kırmızı) veya tüm görüntü işlenebilir.
+
+#- Enumerate nedir ? = enumerate() kullanarak, bir listeyi gezerken öğelerin hem değerini (örneğin, renk) hem de sırasını (indeks) alıyoruz.Bu sayede hem öğenin kendisiyle hem de sırasıyla işlem yapabiliyoruz.
+
+******************************************************************
+
+/*/*/ Uygulama 1 /*/*/
+
+# opencv kütüphanesini içe aktaralım
+import cv2
+
+# matplotlib kütüphanesini içe aktaralım
+import matplotlib.pyplot as plt
+
+# resmi siyah beyaz olarak içe aktaralım
+img = cv2.imread('odev1.jpg', 0)
+
+# resmi çizdirelim
+cv2.imshow('Odev-1',img)
+
+# resmin boyutuna bakalım
+print(img.shape)
+
+# resmi 4/5 oranında yeniden boyutlandıralım ve resmi çizdirelim
+imgResized = cv2.resize(img,(int(img.shape[1]*4/5),int(img.shape[0]*4/5)))
+cv2.imshow("Yeniden Boyutlandıralım", imgResized)
+
+# orjinal resme bir yazı ekleyelim mesela "kopek" ve resmi çizdirelim
+cv2.putText(img,"Kopek ",(375,100),cv2.FONT_HERSHEY_COMPLEX, 1 ,(0,0,0))
+cv2.imshow('Kopek Text', img)
+
+#  orjinal resme 50 threshold değeri üzerindekileri beyaz yap altındakileri siyah yapalım, 
+# binary threshold yöntemi kullanalım ve resmi çizdirelim
+_, thresh_img = cv2.threshold(img, thresh = 50, maxval = 255, type = cv2.THRESH_BINARY)
+cv2.imshow('Threshold', thresh_img)
+
+# orjinal resme gaussian bulanıklaştırma uygulayalım ve resmi çizdirelim
+gb = cv2.GaussianBlur(img, ksize = (3,3), sigmaX = 7)
+cv2.imshow('Gaussian Bulanik', gb)
+
+# orjinal resme Laplacian  gradyan uygulayalım ve resmi çizdirelim
+laplacian = cv2.Laplacian(img, ddepth = cv2.CV_64F)
+cv2.imshow('Laplacian', laplacian)
+
+# orhinal resmin histogramını çizdirelim
+img_hist = cv2.calcHist([img], channels = [0], mask = None, histSize = [256], ranges = [0,256])
+plt.figure()
+plt.plot(img_hist)
+
+******************************************************************
+
+ !!!!!!!!1          --       PROJELERE GEÇİYORUZ.ANLAMADIĞINIZ KOD BLOKLARI OLDUĞUNDA LÜTFEN SYPDERDAN KONTROL EDİNİZ.    --       !!!!!!!!!!!!!!!!!!
+
+****************************************************************	
+
+1-) EL TAKİBİ UYGULAMASI : 
+
+# El Takip Uygulaması
+
+# Gerekli kütüphaneleri içe aktarıyoruz
+import cv2
+import time
+import mediapipe as mp
+
+# Bilgisayarın kamerasını başlatıyoruz
+cap = cv2.VideoCapture(0)  # 0 parametresi, bilgisayarın varsayılan kameralarını kullanır
+
+# MediaPipe Hands modülünü başlatıyoruz
+mpHand = mp.solutions.hands  # MediaPipe'in el takip sınıfına erişiyoruz
+hands = mpHand.Hands()  # Hands sınıfından bir nesne oluşturuyoruz (varsayılan parametrelerle)
+mpDraw = mp.solutions.drawing_utils  # Elin bağlantı noktalarını çizmek için yardımcı fonksiyonlar
+
+# FPS hesaplamaları için zaman değişkenlerini başlatıyoruz
+pTime = 0  # Önceki zaman (önceki kare)
+cTime = 0  # Şu anki zaman (şu anki kare)
+
+# MediaPipe Hands parametreleri hakkında açıklamalar:
+# max_number_hands: Algılanabilecek maksimum el sayısı. Varsayılan değer 2'dir, yani iki el algılayabilir.
+# static_image_mode: Statik görüntüler için True, canlı video için False olmalı. Burada False kullanıyoruz çünkü gerçek zamanlı video akışı izliyoruz.
+# min_detection_confidence: El algılaması için gereken minimum güven eşiği. Örneğin, %50 güvenle bile el algılaması yapılırsa işleme alınır.
+# min_tracking_confidence: El takibi için gereken minimum güven eşiği. El algılandıktan sonra, bu güven eşiği ile elin izlenip izlenemeyeceği belirlenir.
+
+while True:
+    success, img = cap.read()  # Kameradan bir kare (frame) okuyoruz
+    if not success:  # Eğer kameradan okuma işlemi başarısız olursa döngü devam etmesin
+        print("Kamera hatası")
+        break
+
+    imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)  # OpenCV'nin BGR formatını MediaPipe'in RGB formatına dönüştürüyoruz
+    result = hands.process(imgRGB)  # Kareyi MediaPipe Hands modeline gönderiyoruz
+
+    # El koordinatlarını yazdırıyoruz. Eğer el algılanmazsa None döner, yoksa koordinatlar gelir.
+    print(result.multi_hand_landmarks)
+
+    # Eğer herhangi bir el algılandıysa
+    if result.multi_hand_landmarks:
+        for handles in result.multi_hand_landmarks:  # Algılanan her bir el için
+            # Algılanan elin bağlantı noktalarını çiziyoruz. MediaPipe, 21 tane anahtar nokta kullanır.
+            mpDraw.draw_landmarks(img, handles, mpHand.HAND_CONNECTIONS)  # HAND_CONNECTIONS, elin parmaklarını birleştiren bağlantılar.
+
+            # Elin her bir anahtar noktasını geziyoruz (21 adet nokta var)
+            for id, lm in enumerate(handles.landmark):  # Landmark, her bir elin parmaklarının ve bileğin koordinatlarını içerir
+                print(id, lm)  # id: Landmark numarası, lm: Landmark'ın (x, y, z) koordinatları
+                h, w, c = img.shape  # Görüntü boyutlarını alıyoruz (yükseklik, genişlik, kanal sayısı)
+                cx, cy = int(lm.x * w), int(lm.y * h)  # Koordinatları piksel cinsine dönüştürüyoruz
+
+                # Eğer bu nokta "bilek" (id == 4) ise, üzerine bir işaretçi çizebiliriz
+                if id == 4:
+                    cv2.circle(img, (cx, cy), 9, (255, 255, 0), cv2.FILLED)  # Bileği sarı renkte işaretliyoruz
+
+    # FPS hesaplama: FPS = 1 / (şu anki zaman - önceki zaman)
+    cTime = time.time()  # Şu anki zamanı alıyoruz
+    fps = 1 / (cTime - pTime)  # FPS hesaplıyoruz
+    pTime = cTime  # Önceki zamanı güncelliyoruz
+
+    # FPS değerini görüntüye yazdırıyoruz
+    cv2.putText(img, f"Fps: {int(fps)}", (10, 75), cv2.FONT_ITALIC, 3, (255, 0, 0), 5)
+
+    # İşlenmiş kareyi pencereye gösteriyoruz
+    cv2.imshow("İmg", img)  # img: işlenmiş görüntü
+    cv2.waitKey(1)  # Pencereyi güncel tutmak için 1 ms bekliyoruz
+
+# Program çalıştığı sürece kamera görüntüsü ekranda sürekli olarak güncellenir
+
+****************************************************************
+
+2-) PARMAK SAYMA UYGULAMASI :
+
+
+import cv2  # OpenCV kütüphanesini dahil et (Görüntü işleme için)
+import time  # Zaman işlemleri için zaman kütüphanesini dahil et
+import mediapipe as mp  # MediaPipe kütüphanesini dahil et (El takip için)
+
+# Kamera ayarları
+cap = cv2.VideoCapture(0)  # Web kamerasını aç
+cap.set(3, 640)  # Kameranın genişliğini 640 piksel olarak ayarla
+cap.set(4, 480)  # Kameranın yüksekliğini 480 piksel olarak ayarla (Bu, görüntü boyutunu belirler)
+
+# MediaPipe ile el takip modülünü başlat
+mphand = mp.solutions.hands  # El algılama çözümünü başlat
+hands = mphand.Hands()  # El takip modelini başlat
+mpdraw = mp.solutions.drawing_utils  # Çizim araçlarını başlat (Landmark'ları çizmek için)
+tipId = [4, 8, 12, 16, 20]  # Parmak uçlarının ID'lerini içeren liste (Baş parmak, işaret parmağı, ...)
+
+# Sonsuz döngü (Kamera her kareyi okurken sürekli çalışacak)
+while True:
+    success, img = cap.read()  # Kameradan bir kare oku
+
+    if not success:  # Kameradan kare alınamadıysa, hata mesajı ver ve döngüyü sonlandır
+        print("Kamera hatası!")
+        break
+
+    # Görüntüyü BGR'den RGB'ye dönüştür, çünkü MediaPipe RGB formatını bekler
+    imgBGR = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    result = hands.process(imgBGR)  # El algılama işlemini başlat (MediaPipe kullanılarak)
+
+    lmList = []  # Landmark'ları (parmak uçları ve eklemleri) saklamak için boş bir liste
+
+    # Eğer herhangi bir el algılandıysa
+    if result.multi_hand_landmarks:
+        # Algılanan her bir el için işlem yap
+        for handles in result.multi_hand_landmarks:
+            # Elin bağlantılarını çiz (Parmaklar arasındaki çizgileri göster)
+            mpdraw.draw_landmarks(img, handles, mphand.HAND_CONNECTIONS)
+
+            # Eldeki her bir nokta için işlem yap (landmark)
+            for id, lm in enumerate(handles.landmark):
+                h, w, c = img.shape  # Görüntü boyutlarını al (yükseklik, genişlik, kanal)
+                cx, cy = int(lm.x * w), int(lm.y * h)  # Landmark'ın koordinatlarını piksel cinsinden hesapla
+                lmList.append([id, cx, cy])  # Landmark'ı (id, x, y) olarak listeye ekle
+
+    # Eğer elin landmark'ları algılandıysa
+    if len(lmList) != 0:
+        fingers = []  # Parmakların durumlarını tutacak liste (0 kapalı, 1 açık)
+
+        # Baş parmak için kontrol (baş parmak, diğer parmaklara göre daha farklı kontrol edilir)
+        if lmList[tipId[0]][1] < lmList[tipId[0] - 1][1]:  # Baş parmak, sağa doğru hareket etmişse
+            fingers.append(1)  # Baş parmak açık
+        else:
+            fingers.append(0)  # Baş parmak kapalı
+
+        # Diğer parmaklar için benzer kontrol
+        for id in range(1, 5):  # Diğer parmaklar için döngü (1: işaret parmağı, 2: orta parmak, vb.)
+            # Eğer uç nokta (tip) yukarıdaysa, parmak açık demektir
+            if lmList[tipId[id]][2] < lmList[tipId[id] - 2][2]:
+                fingers.append(1)  # Parmak açık
+            else:
+                fingers.append(0)  # Parmak kapalı
+
+        # Tüm açık parmakları say (fingers listesindeki 1'leri toplar)
+        total_fingers = sum(fingers)
+        print(f"Parmak sayısı: {total_fingers}")  # Toplam parmak sayısını yazdır
+
+        # Parmak sayısını ekranda yazdır (Ekranda yeşil renk ile yazılacak)
+        cv2.putText(img, "Parmak sayisi : " + str(int(total_fingers)), (10, 75), cv2.FONT_HERSHEY_SIMPLEX, 2,
+                    (0, 255, 0), 3)  # (10, 75) metnin konumu, font, büyüklük, renk, kalınlık
+
+    # Görüntüyü ekranda göster
+    cv2.imshow("İmg", img)
+
+    # 'q' tuşuna basıldığında döngüyü sonlandır
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+# Kamerayı serbest bırak ve tüm OpenCV pencerelerini kapat
+cap.release()
+cv2.destroyAllWindows()
+
+****************************************************************
+
+3-) POSE ESTİMATİON UYGULAMASI :
+
+# POSE ESTİMATİON
+
+import cv2
+import mediapipe as mp
+import time
+
+# Mediapipe'in pose modelini kullanmak için gerekli sınıf ve yapılandırmaları alıyoruz.
+mppose = mp.solutions.pose
+pose = mppose.Pose()  # Pose modelini oluşturuyoruz.
+
+# Çizim işlemleri için Mediapipe'in drawing_utils modülünü kullanıyoruz.
+mpdraw = mp.solutions.drawing_utils
+
+# Video dosyasını okumak için OpenCV'nin VideoCapture fonksiyonunu kullanıyoruz.
+cap = cv2.VideoCapture("video.mp4")  # "video.mp4" dosyasını açıyoruz.
+
+# FPS hesaplaması için zaman değişkenlerini başlatıyoruz.
+pTime = 0  # Önceki zaman.
+cTime = 0  # Şu anki zaman.
+
+# Sonsuz döngüyle video karesi işlemleri başlıyor.
+while True:
+    succes, img = cap.read()  # Videodan bir kare alıyoruz.
+    if not succes:  # Eğer video bitmişse döngüden çıkıyoruz.
+        break
+
+    # BGR formatındaki görüntüyü RGB'ye çeviriyoruz (Mediapipe, RGB formatını kullanır).
+    imgrgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+    # Poz tespiti işlemi yapıyoruz.
+    result = pose.process(imgrgb)
+
+    # Tespit edilen pose landmark'larını ekrana yazdırıyoruz (isteğe bağlı).
+    print(result.pose_landmarks)
+
+    # Eğer poz landmark'ları tespit edilmişse işlemleri başlatıyoruz.
+    if result.pose_landmarks:
+        # Landmark'ları görüntüye çiziyoruz.
+        mpdraw.draw_landmarks(img, result.pose_landmarks, mppose.POSE_CONNECTIONS)
+
+        # Landmark'lar üzerinde dolaşmak için enumerate ile döngü başlatıyoruz.
+        for id, lm in enumerate(result.pose_landmarks.landmark):
+            # Landmark'ın x, y koordinatlarını görüntü boyutlarına göre ölçekliyoruz.
+            h, w, _ = img.shape  # Görüntünün yüksekliği ve genişliği.
+            cx, cy = int(lm.x * w), int(lm.y * h)  # Pixel değerine dönüştürme.
+
+            # Belirli landmark'lara özel işlemler yapıyoruz:
+            if id == 4:  # Sağ el landmark'ı.
+                cv2.circle(img, (cx, cy), 5, (255, 0, 0), cv2.FILLED)  # Sağ eli mavi çemberle işaretliyoruz.
+
+            if id == 13:  # Sol dirsek landmark'ı.
+                cv2.circle(img, (cx, cy), 8, (0, 255, 0), cv2.FILLED)  # Sol dirseği yeşil çemberle işaretliyoruz.
+
+    # FPS hesaplamak için zaman farkını kullanıyoruz.
+    cTime = time.time()  # Şu anki zamanı alıyoruz.
+    fps = 1 // (cTime - pTime)  # Frame Per Second (FPS) hesaplama.
+    pTime = cTime  # Önceki zamanı güncelliyoruz.
+
+    # FPS bilgisini görüntüye ekliyoruz.
+    cv2.putText(img, "FPS: " + str(int(fps)), (10, 65), cv2.FONT_ITALIC, 2, (255, 0, 0), 2)
+
+    # Görüntüyü ekranda gösteriyoruz.
+    cv2.imshow("img", img)
+
+    # Her bir kareyi göstermek için bekleme süresi ayarlıyoruz.
+    # '0' olduğu için sadece bir kare gösterir ve program durur.
+    # '100' yaparsak görüntü daha yavaş akacaktır.
+    if cv2.waitKey(1) & 0xFF == ord('q'):  # 'q' tuşuna basıldığında döngüden çıkılır.
+        break
+
+# Kaynakları serbest bırakıyoruz.
+cap.release()
+cv2.destroyAllWindows()
+
+****************************************************************
+
+4-) KİŞİSEL ANTRENÖR UYGULAMASI
+
+import cv2
+import numpy as np
+import mediapipe as mp
+import math
+
+
+def findAngle(img, p1, p2, p3, lmList, draw=True):
+    # İlgili noktaların x, y koordinatlarını al
+    x1, y1 = lmList[p1][1:]  # p1 koordinatları
+    x2, y2 = lmList[p2][1:]  # p2 koordinatları
+    x3, y3 = lmList[p3][1:]  # p3 koordinatları
+
+    # Açı hesaplama: atan2 ile iki vektör arasındaki açıyı hesaplar
+    angle = math.degrees(math.atan2(y3 - y2, x3 - x2) - math.atan2(y1 - y2, x1 - x2))
+    if angle < 0:
+        angle += 360  # Açıyı pozitif yap
+
+    if draw:
+        # Görüntü üzerinde çizimler yap (açıyı gösteren çizgiler ve noktalar)
+        cv2.line(img, (x1, y1), (x2, y2), (0, 0, 255), 3)  # 1. çizgi
+        cv2.line(img, (x3, y3), (x2, y2), (0, 0, 255), 3)  # 2. çizgi
+
+        # Noktalara işaretçi (çember) ekle
+        cv2.circle(img, (x1, y1), 10, (0, 255, 255), cv2.FILLED)  # p1 noktası
+        cv2.circle(img, (x2, y2), 10, (0, 255, 255), cv2.FILLED)  # p2 noktası
+        cv2.circle(img, (x3, y3), 10, (0, 255, 255), cv2.FILLED)  # p3 noktası
+
+        # Noktalara çevresel işaretçi (dış çember) ekle
+        cv2.circle(img, (x1, y1), 15, (0, 255, 255))  # p1 çevresi
+        cv2.circle(img, (x2, y2), 15, (0, 255, 255))  # p2 çevresi
+        cv2.circle(img, (x3, y3), 15, (0, 255, 255))  # p3 çevresi
+
+        # Açı bilgisini ekrana yazdır
+        cv2.putText(img, str(int(angle)), (x2 - 40, y2 + 40), cv2.FONT_HERSHEY_PLAIN, 2, (0, 255, 255), 2)
+
+    return angle
+
+
+# Video kaynağını aç
+cap = cv2.VideoCapture("video1.mp4")
+
+# Mediapipe modülünü başlat
+mpPose = mp.solutions.pose
+pose = mpPose.Pose()
+mpDraw = mp.solutions.drawing_utils
+
+dir = 0  # Hareket yönünü takip etmek için değişken (1: yukarı, 0: aşağı)
+count = 0  # Şınav sayısı
+while True:
+    success, img = cap.read()  # Videoyu oku
+    imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)  # Renk formatını RGB'ye çevir
+
+    results = pose.process(imgRGB)  # Poz tespiti işlemi
+
+    lmList = []  # Landmark listesi
+    if results.pose_landmarks:  # Eğer poz tespiti yapılmışsa
+        mpDraw.draw_landmarks(img, results.pose_landmarks, mpPose.POSE_CONNECTIONS)  # Poz bağlantılarını çiz
+
+        # Poz işaretçilerini listeye ekle
+        for id, lm in enumerate(results.pose_landmarks.landmark):
+            h, w, _ = img.shape  # Görüntü boyutlarını al
+            cx, cy = int(lm.x * w), int(lm.y * h)  # X, Y koordinatlarını elde et
+            lmList.append([id, cx, cy])  # Landmark id, x ve y koordinatlarını lmList'e ekle
+
+    # Landmark'lar bulunduğunda
+    if len(lmList) != 0:
+        # # Şınav tespiti için açı hesaplama
+        angle = findAngle(img, 11, 13, 15, lmList)  # Kollar arasındaki açıyı bul
+        per = np.interp(angle, (185, 245), (0, 100))  # Açıyı 0-100 arasında normalize et
+        print(angle)  # Açıyı ekrana yazdır
+
+        # Şınav sayma
+        if per == 100:
+            if dir == 0:  # Eğer tam üstteyse
+                count += 0.5  # Sayacı artır
+                dir = 1  # Yukarıya hareket etti
+        if per == 0:
+            if dir == 1:  # Eğer tam alttaysa
+                count += 0.5  # Sayacı artır
+                dir = 0  # Aşağıya hareket etti
+
+        print(count)  # Şınav sayısını yazdır
+
+        # Şınav sayısını görüntüye yaz
+        cv2.putText(img, str(int(count)), (45, 125), cv2.FONT_HERSHEY_PLAIN, 10, (255, 0, 0), 10)
+
+    # Görüntüyü ekranda göster
+    cv2.imshow("image", img)
+    cv2.waitKey(40)  # 40ms bekle, bu da 25 fps'ye denk gelir
+
+****************************************************************
+
+5-) YÜZ ALGILAMA( MESH ) UYGULAMASI
+
+# OpenCV ve Mediapipe kütüphanelerini import ediyoruz
+import cv2
+import mediapipe as mp
+
+# Video dosyasını açmak için VideoCapture kullanıyoruz. Burada "video3.mp4" adlı dosya okunuyor.
+cap = cv2.VideoCapture("video1.mp4")
+
+# Mediapipe'in yüz algılama modülünü initialize ediyoruz.
+# FaceDetection sınıfını çağırıyoruz ve min_detection_confidence parametresiyle algılama hassasiyetini belirtiyoruz (0.20).
+mpFaceDetection = mp.solutions.face_detection
+faceDetection = mpFaceDetection.FaceDetection(0.20)
+
+# Çizim işlemleri için Mediapipe'in drawing_utils modülünü kullanıyoruz.
+mpDraw = mp.solutions.drawing_utils
+
+# Video karesini okumak ve işlemek için sonsuz bir döngü başlatıyoruz.
+while True:
+    # Videodan bir kare okuyup başarı durumunu (success) ve görüntüyü (img) alıyoruz.
+    success, img = cap.read()
+
+    # Eğer video sona ererse veya kare okunamazsa döngüyü sonlandırabiliriz (bu kodda kontrol edilmemiş).
+    if not success:
+        break
+
+    # OpenCV'de görüntü formatı BGR'dir. Mediapipe ise RGB formatını kullanır.
+    # Bu nedenle görüntüyü BGR'den RGB'ye dönüştürüyoruz.
+    imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+    # FaceDetection sınıfı ile görüntüde yüz algılama işlemini gerçekleştiriyoruz.
+    results = faceDetection.process(imgRGB)
+
+  
+    if results.detections: # eğer en az bir yüz algılandıysa bir liste döner.
+        # Algılanan her yüz için döngü başlatıyoruz.
+        for id, detection in enumerate(results.detections):
+            # Her bir yüzün konum bilgilerini alıyoruz (bounding box bilgileri).
+            bboxC = detection.location_data.relative_bounding_box
+
+            # Görüntünün genişlik (w) ve yükseklik (h) bilgilerini alıyoruz.
+            h, w, _ = img.shape
+            # Bağıl koordinatları piksel değerlerine dönüştürüyoruz:
+            # bboxC.xmin: Yüzün sol üst köşesinin yatay orantılı başlangıç noktası (0-1 arasında)
+            # bboxC.ymin: Yüzün sol üst köşesinin dikey orantılı başlangıç noktası (0-1 arasında)
+            # bboxC.width: Yüzün orantılı genişliği
+            # bboxC.height: Yüzün orantılı yüksekliği
+            bbox = (
+                int(bboxC.xmin * w),  # Oran x genişlik → Sol üst köşenin X piksel değeri
+                int(bboxC.ymin * h),  # Oran x yükseklik → Sol üst köşenin Y piksel değeri
+                int(bboxC.width * w),  # Oran x genişlik → Yüzün piksel genişliği
+                int(bboxC.height * h)  # Oran x yükseklik → Yüzün piksel yüksekliği
+            )
+            # Algılanan yüzün etrafına dikdörtgen çiziyoruz.
+            # Bbox koordinatları kullanılarak, sarı (0, 255, 255) renkte ve kalınlığı 2 olan bir çerçeve çiziliyor.
+            cv2.rectangle(img, bbox, (0, 255, 255), 2)
+
+    # İşlenen görüntüyü bir pencere içinde gösteriyoruz.
+    cv2.imshow("img", img)
+
+    # Her kareyi göstermek için 10 ms bekliyoruz. Ayrıca, 'q' tuşuna basıldığında döngü sonlandırılabilir.
+    if cv2.waitKey(10) & 0xFF == ord('q'):
+        break
+
+# Video işleme tamamlandıktan sonra kaynakları serbest bırakıyoruz.
+cap.release()
+cv2.destroyAllWindows()
+
+****************************************************************
+
+6-) UYKU ALGILAMA UYGULAMASI
+
+import cv2
+import cvzone
+import mediapipe as mp
+from cvzone.FaceMeshModule import FaceMeshDetector
+from cvzone.PlotModule import LivePlot
+
+# Video dosyasını açıyoruz
+cap = cv2.VideoCapture("video1.mp4")
+
+# Mediapipe FaceMeshDetector kullanıyoruz
+detector = FaceMeshDetector()
+
+# Canlı grafik için bir plot oluşturuyoruz, Y ekseninde göz kırpma oranını göstereceğiz
+plotY = LivePlot(540, 360, [10, 60])
+
+# Yüzdeki belirli noktaların indekslerini içeren liste (göz ve ağız noktalarına yakın)
+idList = [22, 23, 24, 26, 110, 157, 159, 161, 130, 243]
+
+# Çizim için başlangıç rengi kırmızı
+color = (0, 0, 255)
+
+# Göz kırpma oranlarını tutmak için bir liste
+ratioList = []
+# Göz kırpma sayısını tutan sayaç
+counter = 0
+# Göz kırpma tespit sayısını tutan sayaç
+blickCounter = 0
+
+# Sonsuz döngü başlatıyoruz, her bir kareyi analiz edeceğiz
+while True:
+    succes, img = cap.read()
+
+    # Yüzün mesh modelini buluyoruz, 'draw=False' ile yüz hatlarını çizdirmiyoruz
+    img, faces = detector.findFaceMesh(img, draw=False)
+
+    # Eğer yüz algılanırsa
+    if faces:
+        face = faces[0]  # İlk yüzü alıyoruz
+
+        # idList'teki her nokta için yüz üzerinde küçük daireler çiziyoruz
+        for id in idList:
+            cv2.circle(img, face[id], 5, color, cv2.FILLED)  # 5 piksel çapında kırmızı daireler
+
+        # Göz kırpma tespiti için yüzün belirli noktalarını alıyoruz
+        leftUp = face[159]  # Sol üst göz noktası
+        leftDown = face[23]  # Sol alt göz noktası
+        leftLeft = face[130]  # Sol gözün dış noktası
+        leftRight = face[243]  # Sol gözün iç noktası
+
+        # Yükseklik (dikey mesafe) ve genişlik (yatay mesafe) arasındaki mesafeyi hesaplıyoruz
+        lenghVar, _ = detector.findDistance(leftUp, leftDown)  # Dikey mesafe
+        lenghHor, _ = detector.findDistance(leftLeft, leftRight)  # Yatay mesafe
+
+        # Çizim için yeşil ve mavi renklerde çizgiler çiziyoruz
+        cv2.line(img, leftUp, leftDown, (0, 255, 0), 3)  # Dikey çizgi
+        cv2.line(img, leftLeft, leftRight, (255, 255, 0), 3)  # Yatay çizgi
+
+        # Yüzdeki göz orantısını hesaplıyoruz
+        ratio = (lenghVar / lenghHor) * 100  # Yükseklik/genişlik oranı
+        ratioList.append(ratio)  # Oranı listeye ekliyoruz
+
+        # Eğer oran listesinde 3'ten fazla değer varsa, eski değeri çıkarıyoruz
+        if len(ratioList) > 3:
+            ratioList.pop(0)
+
+        # Ortalama oranı hesaplıyoruz
+        ratioAvg = sum(ratioList) / len(ratioList)
+        print(ratioAvg)  # Oranı ekrana yazdırıyoruz
+
+        # Eğer oran %35'ten küçükse ve henüz bir göz kırpma tespiti yapılmadıysa
+        if ratioAvg < 35 and counter == 0:
+            blickCounter += 1  # Göz kırpma sayısını artırıyoruz
+            color = (0, 255, 0)  # Göz kırpma tespit edilince rengi yeşil yapıyoruz
+            counter = 1  # Sayaç başlatılıyor
+
+        # Eğer bir göz kırpma tespiti yapıldıysa
+        if counter != 0:
+            counter += 1  # Sayaç artıyor
+            # Eğer sayaç 10'dan büyükse, tekrar sıfırlıyoruz
+            if counter > 10:
+                counter = 0
+                color = (0, 0, 255)  # Rengi kırmızıya geri alıyoruz
+
+        # Göz kırpma sayısını ekranda gösteriyoruz
+        cvzone.putTextRect(img, f'BlickCount: {blickCounter}', (50, 100), colorR=color)
+
+        # Orta grafiği güncelliyoruz ve renkleri ayarlıyoruz
+        imgPlot = plotY.update(ratioAvg, color)
+
+        # Görüntüyü yeniden boyutlandırıyoruz
+        img = cv2.resize(img, (640, 400))
+
+        # Görüntü ve grafiklerin birleştiği bir ekran oluşturuyoruz
+        imgStack = cvzone.stackImages([img, imgPlot], 2, 1)
+
+    # Sonuçları ekranda gösteriyoruz
+    cv2.imshow("img", imgStack)
+
+    # 25 ms bekliyoruz ve herhangi bir tuşa basılırsa döngüyü sonlandırıyoruz
+    cv2.waitKey(25)
+
+****************************************************************
+7-) ŞERİT TAKİP UYGULAMASI
+
+import cv2
+import numpy as np
+
+def region_of_interest(image, vertices):
+    """
+    Görüntünün sadece belirli bir bölgesini işlemek için maske uygular.
+    - image: İşlenecek görüntü.
+    - vertices: Maske uygulanacak bölgenin köşe koordinatları [(x1, y1), (x2, y2), ...].
+    """
+    mask = np.zeros_like(image)  # Görüntüyle aynı boyutta siyah bir maske oluşturulur.
+    match_mask_color = 255  # Maske rengi beyaz olarak ayarlanır (gri tonlamada en parlak değer).
+    cv2.fillPoly(mask, vertices, match_mask_color)  # Belirtilen köşelere göre maske doldurulur.
+    masked_img = cv2.bitwise_and(image, mask)  # Orijinal görüntü ve maske birleştirilir.
+    return masked_img
+
+def drawLine(image, lines):
+    """
+    Tespit edilen çizgileri görüntüye çizer.
+    - image: Orijinal görüntü.
+    - lines: Çizgilerin başlangıç ve bitiş noktalarını içeren bir liste.
+    """
+    image = np.copy(image)  # Orijinal görüntü kopyalanır.
+    blank_image = np.zeros((image.shape[0], image.shape[1], 3), dtype=np.uint8)  # Siyah arka plan.
+
+    if lines is not None:  # Eğer çizgiler varsa:
+        for line in lines:  # Her bir çizgi için döngü.
+            for x1, y1, x2, y2 in line:  # Çizginin başlangıç ve bitiş noktaları.
+                cv2.line(blank_image, (x1, y1), (x2, y2), (0, 255, 0), 10)  # Çizgi çizilir (yeşil, kalınlık=10).
+
+    # Orijinal görüntü ve çizgiler birleştirilir (alpha blending ile).
+    image = cv2.addWeighted(image, 0.8, blank_image, 1, 0.0)
+    return image
+
+def process(image):
+    """
+    Görüntüyü işleyerek çizgileri tespit eder ve çizer.
+    - image: İşlenecek görüntü.
+    """
+    height, width = image.shape[0], image.shape[1]  # Görüntünün yüksekliği ve genişliği alınır.
+
+    # 1. Adım: ROI (Region of Interest) için üçgen alan tanımlanır: Alt köşeler ve orta üst.
+    region_of_interest_ver = [(0, height), (width / 2, height / 2), (width, height)]
+
+    # 2. Adım: Görüntüyü gri tonlamaya çeviririz.
+    gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)  # Görüntü gri tonlamaya çevrilir.
+
+    # 3. Adım: Canny kenar tespiti uygulanır.
+    canny_image = cv2.Canny(gray_image, 250, 120)  # Kenar tespiti yapılır. (minVal=250, maxVal=120)
+
+    # 4. Adım: Belirlenen bölge dışındaki alanlar kaldırılır.
+    cropped_img = region_of_interest(canny_image, np.array([region_of_interest_ver], np.int32))
+
+    # 5. Adım: Hough dönüşümüyle çizgiler tespit edilir.
+    lines = cv2.HoughLinesP(cropped_img, rho=2, theta=np.pi/180, threshold=220, minLineLength=10, maxLineGap=5)
+    # rho=2: Çözünürlük (2 piksel).
+    # theta=np.pi/180: Açısal çözünürlük (1 derece).
+    # threshold=220: Çizgi tespiti için gereken minimum oy.
+    # minLineLength=10: Tespit edilecek en kısa çizgi uzunluğu.
+    # maxLineGap=5: İki segment arasındaki maksimum boşluk.
+
+    # 6. Adım: Çizgiler görüntüye çizilir.
+    imageWithLine = drawLine(image, lines)
+    return imageWithLine
+
+# Video dosyası okunur.
+cap = cv2.VideoCapture("video1.mp4")
+
+while True:
+    # Her bir kareyi okuruz.
+    success, img = cap.read()
+    if not success:  # Eğer kare okunamadıysa (video bitti), döngüden çıkarız.
+        break
+
+    # Kareyi işlemden geçiririz.
+    processed_img = process(img)
+
+    # İşlenmiş görüntüyü gösteririz.
+    cv2.imshow("Processed Image", processed_img)
+
+    # 'q' tuşuna basılırsa döngü sona erer.
+    if cv2.waitKey(30) & 0xFF == ord('q'):
+        break
+
+# Video ve pencereler serbest bırakılır.
+cap.release()
+cv2.destroyAllWindows()
+
+# -- UYGULAMA AÇIKLAMALARI -- #
+'''
+1-) ROI (Region of Interest) tanımlama:
+Görüntünün ilgilenilen bölgesi belirleniyor. Üçgen bir alan seçiliyor.
+
+2-) Görüntünün gri tonlamaya çevrilmesi:
+cv2.cvtColor ile görüntü gri tonlamaya dönüştürülüyor.
+
+3-) Canny kenar algılama:
+Kenar tespiti yapmak için cv2.Canny kullanılıyor.
+
+4-) Maskelenmiş görüntü oluşturma:
+Tanımlanan ROI bölgesine uygun bir maske uygulanarak, sadece istenen alan işleniyor.
+
+5-) Hough dönüşümüyle çizgilerin tespiti:
+Hough dönüşümü kullanılarak kenar algılamadan elde edilen verilerle çizgiler tespit ediliyor.
+
+6-) Çizgilerin görüntüye çizilmesi:
+Tespit edilen çizgiler, görüntünün üzerine çiziliyor (cv2.line ile).
+
+7-) Görüntülerin işlenmesi ve gösterilmesi:
+Videonun her bir karesi bu işlemlerden geçirilerek işleniyor ve ekrana gösteriliyor.
+'''
+
+'''
+İşlem Adımları
+process Fonksiyonu Başlar:
+
+- Region of Interest (ROI) Tanımı: Görüntünün işlenecek bölgesinin koordinatları belirlenir (region_of_interest_ver).
+- Gri Tonlama (Gray Conversion): Görüntü gri tonlamaya çevrilir (cv2.cvtColor).
+- Canny Kenar Algılama: Gri tonlamalı görüntü üzerinde kenar tespiti yapılır (cv2.Canny).
+- Region of Interest Uygulaması: Yukarıda tanımlanan region_of_interest fonksiyonu burada çağrılır.
+region_of_interest Fonksiyonu Çalışır:
+
+Maske İşlemi: Görüntünün sadece istenen bölgesi işlenir, diğer alanlar siyah maske ile kapatılır (cv2.fillPoly).
+Hough Çizgi Algılama:
+
+Maske uygulanmış görüntüye Hough dönüşümü uygulanır ve çizgiler algılanır (cv2.HoughLinesP).
+Çizgileri Çizme:
+
+Algılanan çizgiler, drawLine fonksiyonu kullanılarak orijinal görüntü üzerine çizilir.
+'''
+
+****************************************************************
+8-) OTOPARK UYGULAMASI
+
+------ >>>>  1. Python dosyasında resim üzerine işaretleme yapacağız  <<<< ------
+
+import cv2  # OpenCV kütüphanesini içe aktar
+import pickle  # Python nesnelerini dosyaya kaydedip geri alabilmek için pickle kütüphanesini içe aktar
+
+# 'CarParkPos' dosyasından daha önce kaydedilen koordinatları yüklemeye çalışıyoruz
+try:
+    with open("CarParkPos", "rb") as f:  # Dosyayı ikili (binary) okuma modunda açıyoruz
+        posList = pickle.load(f)  # Dosyadaki veriyi yükleyip posList değişkenine atıyoruz
+except:  # Eğer dosya yoksa veya yüklenemiyorsa (hata olursa)
+    posList = []  # Boş bir liste oluşturuyoruz (yeni tıklamalar kaydedilecek)
+
+# Park alanlarının genişlik ve yükseklik değerlerindaai belirliyoruz
+width = 27  # Dikdörtgenin genişliği
+height = 15  # Dikdörtgenin yüksekliği
+
+# Fare tıklama olayını yakalayan fonksiyon
+def maouseClick(events, x, y, flags, params):
+    if events == cv2.EVENT_LBUTTONDOWN:  # Sol fare tuşuna tıklanırsa
+        posList.append((x, y))  # Tıklanan noktayı posList'e ekliyoruz
+
+    if events == cv2.EVENT_RBUTTONDOWN:  # Sağ fare tuşuna tıklanırsa
+        for i, pos in enumerate(posList):  # posList'teki her bir tıklanan noktayı kontrol ediyoruz
+            x1, y1 = pos  # x ve y koordinatlarını alıyoruz
+            if x1 < x < x1 + width and y1 < y < y1 + height:  # Eğer sağ tıklama, dikdörtgenin içinde ise
+                posList.pop(i)  # O noktayı listeden çıkarıyoruz (silme işlemi)
+
+    # Yapılan değişiklikleri 'CarParkPos' dosyasına kaydediyoruz
+    with open("CarParkPos", "wb") as f:  # Dosyayı ikili (binary) yazma modunda açıyoruz
+        pickle.dump(posList, f)  # Güncellenmiş posList'i dosyaya yazıyoruz
+
+
+# Sonsuz bir döngü başlatıyoruz, her zaman görseli güncellemek için
+while True:
+    img = cv2.imread("first_frame.png")  # Görseli okuyoruz (ilk kareyi alıyoruz)
+
+    # Tıklanan her nokta için dikdörtgen çiziyoruz
+    for pos in posList:  # posList'teki her koordinat için
+        cv2.rectangle(img, pos, (pos[0] + width, pos[1] + height), (255, 0, 0), 2)  # Dikdörtgeni çiziyoruz
+
+    print(posList)  # Tıklanan noktaları terminale yazdırıyoruz
+
+    cv2.imshow("img", img)  # Güncellenen görseli ekranda gösteriyoruz
+    cv2.setMouseCallback("img", maouseClick)  # Fare tıklama olaylarını "img" penceresinde dinliyoruz
+
+    cv2.waitKey(1)  # Bir tuşa basılmasını bekliyoruz (1 ms süreyle)
+
+# AŞAMALAR #
+'''
+1-) Önce while döngüsü kontrolü yapıldı.
+2-) Sonra mouseClick fonksiyonu oluşturuldu ve sol tıkla ekleme sağ tık ile silme işlemleri yapıldı.
+3-) Yapılan değişiklikleri kaybetmemek adına with open ile dosyayı kayıt ediyoruz.
+'''
+
+------ >>>>  2. Python dosyasında isse gerekli işlemler uygulanarak yer tespiti ve diğer işlemler kontrol edildi <<<< ------
+
+
+import cv2
+import numpy as np
+import pickle
+
+
+# Park alanlarını kontrol eden fonksiyon
+def chechParkSpace(image):
+    spaceCounter = 0  # Boş park alanlarının sayısını tutan sayaç
+
+    # Her bir park alanının koordinatlarını kontrol et
+    for pos in posList:
+        x, y = pos  # Pos listesi her bir park alanının (x, y) koordinatını içeriyor
+
+        img_cropp = image[y: y + height, x: x + width]  # Park alanını (dikdörtgen şeklinde) kesiyoruz
+        count = cv2.countNonZero(img_cropp)  # Kesilen alandaki beyaz pikselleri sayıyoruz
+
+        print(count)  # Piksel sayısını ekrana yazdırıyoruz
+
+        # Eğer beyaz piksel sayısı 150'den küçükse, boş park yeri olarak kabul edilir
+        if count < 150:
+            color = (0, 255, 0)  # Yeşil (boş)
+            spaceCounter += 1  # Boş park yeri sayısını artırıyoruz
+        else:
+            color = (0, 0, 255)  # Kırmızı (dolu)
+
+        # Park alanının etrafını dikdörtgenle çiziyoruz
+        cv2.rectangle(img, pos, (pos[0] + width, pos[1] + height), color, 2)
+
+        # Piksel sayısını park alanının içine yazıyoruz
+        cv2.putText(img, str(count), (x, y + height - 2), cv2.FONT_HERSHEY_PLAIN, 1, color, 1)
+
+        # Toplam boş park yerini ekranın üst kısmına yazıyoruz
+    cv2.putText(img, f"Free : {spaceCounter}/ {len(posList)}", (15, 24), cv2.FONT_HERSHEY_PLAIN, 1.5, (0, 255, 255), 3)
+
+
+# Dikdörtgenin genişliği ve yüksekliği
+width = 27
+height = 15
+
+# Video kaynağını açıyoruz
+cap = cv2.VideoCapture("video.mp4")  # 'video.mp4' yerine kamerayı da kullanabilirsin (örneğin: 0)
+
+# Önceden kaydedilmiş park yerlerinin koordinatlarını yüküyoruz
+with open("CarParkPos", "rb") as f:
+    posList = pickle.load(f)  # 'CarParkPos' dosyasından park yerlerinin koordinatlarını alıyoruz
+
+# Video kareleri üzerinde döngü başlatıyoruz
+while True:
+    succes, img = cap.read()  # Videodan bir kare okuyoruz
+    imgGray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # Görüntüyü gri tonlamaya çeviriyoruz
+    imgBlur = cv2.GaussianBlur(imgGray, (3, 3), 1)  # Görüntüyü bulanıklaştırıyoruz
+    imgThreshold = cv2.adaptiveThreshold(imgBlur, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 25, 16)
+    # Adaptive thresholding ile görüntüyü siyah/beyaz yapıyoruz
+    # imgBlur: Bulanıklaştırılmış gri tonlamalı görüntü
+    # 255: Beyaz rengi temsil eden değer
+    # cv2.ADAPTIVE_THRESH_GAUSSIAN_C: Ağırlıklı ortalama kullanarak adaptif eşikleme
+    # cv2.THRESH_BINARY_INV: Siyah beyaz yapma, tersine çevirme
+    # 25: Kare boyutu (yaklaşık olarak bir piksel bölgesi)
+    # 16: C parametresi, eşik değerinden çıkacak sabit fark
+
+    imgMedian = cv2.medianBlur(imgThreshold, 5)  # Median filtreleme yapıyoruz (gürültü azaltma)
+    imgDilate = cv2.dilate(imgMedian, np.ones((3, 3), np.uint8), iterations=2)  # Görüntüyü büyütüyoruz (dilasyon)
+
+    chechParkSpace(imgDilate)  # Park yerlerini kontrol etme fonksiyonunu çağırıyoruz
+
+    cv2.imshow("img", img)  # Orijinal görüntüyü ekranda gösteriyoruz
+    # Opsiyonel olarak median filtreyi de gösterebiliriz
+    # cv2.imshow("imgMedian", imgMedian)
+
+    # Her bir kareyi ekranda 200ms gösteriyoruz
+    cv2.waitKey(200)  # 200ms bekle, her bir kareyi göster
+
+****************************************************************
+9-) SnapChat Efekt
+
+import cv2
+import mediapipe as mp
+import numpy as np
+
+# Kamera açma
+cap = cv2.VideoCapture(0)  # Kamera açılır. '0' varsayılan kamerayı temsil eder.
+
+# MediaPipe Yüz Tespiti Modülü Başlatma
+face = mp.solutions.face_detection  # MediaPipe yüz tespiti modülünü alır.
+face_detection = face.FaceDetection(0.5)  # Yüz tespiti modelini başlatır, 0.5 güven eşiğiyle.
+
+# Arka plan resmini yükle
+bg_image = cv2.imread("images.jpeg")  # Belirtilen arka plan resmini okur.
+
+# Sabit daire boyutu (kamera mesafesine bakmaksızın)
+circle_radius = 100  # Sabit bir daire yarıçapı belirler. Kamera mesafesinden bağımsız.
+
+while True:
+    # Kameradan görüntü oku
+    success, img = cap.read()  # Kameradan bir kare (frame) okur.
+    if not success:
+        break  # Eğer görüntü alınamazsa döngü sonlanır.
+
+    # Görüntüyü RGB formatına çevir (MediaPipe için)
+    imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)  # BGR'yi RGB'ye dönüştürür, çünkü MediaPipe RGB kullanır.
+    results = face_detection.process(imgRGB)  # Yüz tespiti yapar.
+
+    # Görüntü boyutları
+    h, w, _ = img.shape  # Görüntünün yüksekliği (h), genişliği (w) ve kanal sayısını alır.
+
+    # Eğer arka plan resmi yüklenmemişse, hata mesajı ver
+    if bg_image is None:
+        print("Hata: Arka plan resmi bulunamadı!")
+        break  # Eğer arka plan resmi yoksa, hata verir ve döngüden çıkar.
+
+    # Arka planı mevcut çözünürlüğün %150 genişliğinde ve yüksekliğinde ayarla
+    scale_factor = 1.5  # Arka planın boyutunu %50 büyütmek için kullanılan faktör.
+    new_w, new_h = int(w * scale_factor), int(h * scale_factor)  # Yeni genişlik ve yükseklik hesaplanır.
+
+    # Arka planın boyutunu yeniden boyutlandır
+    bg_resized = cv2.resize(bg_image, (new_w, new_h))  # Arka planı yeniden boyutlandırır.
+
+    # Yüz tespiti yapıldıysa, tespit edilen yüzleri işle
+    if results.detections:  # Eğer yüzler tespit edildiyse, işlem yapar.
+        for detection in results.detections:  # Tespit edilen her yüz için döngü başlatılır.
+            cords = detection.location_data.relative_bounding_box  # Yüzün konum ve boyut bilgileri.
+
+            # Yüzün konum ve boyutunu hesapla
+            x, y, width, height = int(cords.xmin * w), int(cords.ymin * h), int(cords.width * w), int(cords.height * h)  # Yüzün tespit edilen koordinatları gerçek piksel boyutlarına dönüştürülür.
+
+            # Yüzü yukarı kaydırmak için 'y' değerini azaltabiliriz
+            #y -= 30  # Yüzü 30 piksel yukarı kaydır (Bu satır yorum halindedir, aktif edebilirsiniz).
+
+            # Yüzü sağa kaydırmak için 'x' değerini artırabiliriz
+            #x += 50  # Yüzü 50 piksel sağa kaydır (Bu satır yorum halindedir, aktif edebilirsiniz).
+
+            # Yüzü genişletilmiş arka planın ortasına yerleştir
+            center_x = int(new_w // 2.13)  # Arka planın X eksenindeki merkezini hesaplar. '2.13' ile biraz sağa kaydırır.
+            center_y = int(new_h // 2)  # Arka planın Y eksenindeki merkezini hesaplar.
+
+            # Yüzü yeniden merkezleyerek konumlandır
+            new_x = center_x - width // 2  # Yüzün yeni X koordinatını hesaplar.
+            new_y = center_y - height // 2  # Yüzün yeni Y koordinatını hesaplar.
+
+            # Yüzün sınırlarını kontrol et, eğer taşarsa doğru şekilde sabitle
+            new_x = max(0, min(new_x, new_w - width))  # Yüzün X koordinatını sınırlamak için kontrol eder.
+            new_y = max(0, min(new_y, new_h - height))  # Yüzün Y koordinatını sınırlamak için kontrol eder.
+
+            # Yüz görüntüsünü al ve yeniden boyutlandır
+            face_resized = cv2.resize(img[y:y + height, x:x + width], (width, height))  # Yüzün görüntüsünü alır ve arka plan için yeniden boyutlandırır.
+
+            # Sabit daire boyutunda maske oluştur (kamera mesafesinden bağımsız)
+            mask = np.zeros((height, width), dtype=np.uint8)  # Yüzün üzerine uygulanacak maske oluşturur. Başlangıçta tamamen siyah (şeffaf).
+            center = (width // 2, height // 2)  # Dairenin merkezi, yüzün merkezi olarak belirlenir.
+            cv2.circle(mask, center, circle_radius, 255, -1)  # Maske üzerinde sabit boyutta bir daire çizer. Daire içi tamamen beyaz (255).
+
+            # Maskeyi yüz üzerine uygula
+            face_circular = cv2.bitwise_and(face_resized, face_resized, mask=mask)  # Yüzün üzerine maskeyi uygular.
+
+            # Maskeyi 3 kanalına dönüştür, böylece 3 renk kanalı ile işlem yapılabilir
+            mask_3channel = cv2.merge([mask, mask, mask])  # Maskeyi 3 kanallı bir hale getirir (RGB).
+
+            # Yüzü eklemeden önce, arka planı maske alanında temizle (şeffaflaştır)
+            bg_resized[new_y:new_y + height, new_x:new_x + width] = cv2.bitwise_and(
+                bg_resized[new_y:new_y + height, new_x:new_x + width],  # Arka planın bu kısmını maske ile temizler.
+                bg_resized[new_y:new_y + height, new_x:new_x + width],
+                mask=cv2.bitwise_not(mask)  # Maskenin tersi ile işlem yapılır, yani maske dışındaki alanı temizler.
+            )
+
+            # Yuvarlak yüzü arka plan üzerine ekle
+            bg_resized[new_y:new_y + height, new_x:new_x + width] += face_circular  # Yüzü dairesel şekilde arka plana ekler.
+
+    # Yeni genişletilmiş arka planı ekrana yansıt
+    cv2.imshow("Expanded Background with Circular Face", bg_resized)  # Arka plan ile birlikte yuvarlak yüzü ekrana gösterir.
+
+    # 'q' tuşuna basıldığında çık
+    if cv2.waitKey(20) & 0xFF == ord('q'):  # 'q' tuşuna basıldığında döngüyü sonlandırır.
+        break
+
+# Kaynağı serbest bırak ve tüm pencereleri kapat
+cap.release()  # Kamerayı serbest bırakır.
+cv2.destroyAllWindows()  # Tüm pencereleri kapatır.
+
+

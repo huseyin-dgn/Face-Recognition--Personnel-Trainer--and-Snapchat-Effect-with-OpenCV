@@ -1,0 +1,1655 @@
+******** -------------- !!!!!!!!!!!!! ÖNEMLİ ******** -------------- !!!!!!!!!!!!! 
+
+Tc Kimlik No sorgulama kodu 
+
+def tckn_dogrula(tckn: str) -> bool:
+    if len(tckn) != 11 or not tckn.isdigit():
+        return False
+
+    digits = [int(d) for d in tckn]
+
+    # İlk hane 0 olamaz
+    if digits[0] == 0:
+        return False
+
+    # 1. ilâ 10. basamakların kontrolü
+    sum_odd = digits[0] + digits[2] + digits[4] + digits[6] + digits[8]
+    sum_even = digits[1] + digits[3] + digits[5] + digits[7]
+    check_digit_10 = (7 * sum_odd - sum_even) % 10
+
+    if check_digit_10 != digits[9]:
+        return False
+
+    # İlk 10 basamağın toplamının kontrolü
+    sum_first_10 = sum(digits[:10])
+    check_digit_11 = sum_first_10 % 10
+
+    if check_digit_11 != digits[10]:
+        return False
+
+    return True
+
+******** -------------- !!!!!!!!!!!!! ÖNEMLİ ******** -------------- !!!!!!!!!!!!! 
+
+Slicing a String…
+
+sequence[start_index:end_index] == Belirtilen indexler arasındaki değerler için...
+
+Eğer bu listeyi, öğelerini ikişer ikişer atlayarak dilimlemek istersek de şu yolu takip ediyoruz:
+
+l[::2]
+
+Aynı listenin, ilk öğeden itibaren sonuna kadar olan bütün öğelerini almak için ise şunu yazıyoruz:
+
+l[1:]
+
+Liste içindeki tek sayıları almak için :
+
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+odd_numbers = numbers[::2]
+print(odd_numbers) 
+
+Liste içindeki çift sayıları almak için :
+
+even_numbers = numbers[1::2]
+print(even_numbers)
+
+Liste içindeki 1. indisten 4. indise kadar olan değerleri değiştirir. ( 1 , 2 , 3)
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+numbers[1:4] = [10, 20, 30]
+print(numbers)
+
+Negatif dilimleme listenin sonundan başlar.
+name="SIMPLILEARN"
+print(name[-5:-2]
+Çıktı = LEA
+
+Bir veri yapısının elemanlarını tersine çevirmek için negatif bir adım kullanabiliriz.
+b="SIMPLILEARN"
+print(a[::-1])
+Çıktı = NRAELIPMIS
+
+Kullanıcılar diğer öğeleri değiştirmeden listeye öğeler ekleyebilirler. 
+x[:0]=[1,2,3]
+
+
+******** -------------- !!!!!!!!!!!!! ÖNEMLİ ******** -------------- !!!!!!!!!!!!! 
+
+import builtins
+
+abs() == Mutlak değerini söyler...
+
+round() == Aşağı yukarı yuvarlama...
+
+any() == O listede ya da değerde var mı...
+
+ascii() == Printten farklı olarak yazılan değeri verir. 16 lık taban değerlerini de gönderir...
+  
+   ---- a = 'istihza'
+        print(ascii(a))
+        'istihza'
+
+bin() == İkilik tabanda değerini gönderir...
+
+chr() == Bir tam sayının karakter karşılığını verir...
+
+set() == Bir karakter dizisini kümeye dönüştürür…
+
+callable() == Nesnenin çağırılabilirliğini kontrol eder...
+
+ord() == Ondalık taban değerini verir...
+
+oct() == Sekizlik taban değerini verir...
+
+hex() == Onaltılık taban değerini döndürür...
+
+eval() == Deyim mi yoksa ifade mi diye kontrol eder...
+
+divmod(10,3) == 10 sayısının 3 sayısına bölümünü verir.Çıkarttığı değer :
+          
+    ----  (3,1) == 3 bölümü , 1 kalanı ifade eder...
+
+enumerate() == Numaralandırmak anlamına gelir ;
+         
+  ----   for i in enumerate('is'):
+             print(i)
+
+             (0, 'i') == Çıktı 
+             (1, 's')
+
+format() == format(12, '.2f') == 2 det nokta koydu ( amk hackerrankı)
+              ‘12.00’
+
+filter() == Süzme işlemi gibi düşünülebilir...
+
+    ----  def tek(sayı):
+          return sayı % 2 == 1
+          print(*filter(tek, l))
+
+    ---- print(*filter(tek, l))
+
+isinstance() ==
+
+         ---- isinstance('istihza', str)
+               True == Çıktı 
+
+
+map() == İşlemi bütün değerler uygulamak için...
+       
+       ---- def karesi(n):
+               return n ** 2
+
+            list(map(karesi, l))
+
+           [1, 16, 25, 16, 4, 81, 100] == Çıktı
+
+
+pow(2.3) == 2 nin 3. katı...
+
+reversed() == Liste dahil bütün ifadelerin değerlerini ters çevirir...
+
+       ---- isimler[::-1]  == MUADİLİ
+
+            ['ışık', 'çiğdem', 'ayşe', 'veli', 'mehmet', 'ahmet']
+
+sorted() == Sıralama yapar. Türkçe değerlerde sıralama yapamaz...
+
+slice() == Dilimlemek için...
+
+       ---- dl = slice(0, 3)
+
+
+zip(a1,a2) == Listeleri birleştirir. 
+
+
+re.findall() === Python'un re (regular expression) modülünde bulunan bir fonksiyondur ve bir metin içinde belirli bir düzenli ifade (regular expression) ile eşleşen tüm alt dizileri bulur.
+
+   ---- Kullanım alanları çok geniş olduğunu için internetten genel tanımlalarına bakabilirsin.
+      
+         text = "My phone number is 123-456-7890." : Bu şekilde verilmiş olan bir texti ;;
+          ['123', '456', '7890'] olarak çıkartır...
+
+
+
+***************************************************************************************************************
+Liste...
+
+emptylist= list();
+
+myList.append(x) == Listeye x sayısını ekler.
+
+myList.reserve() == Listeyi tersten yazar.
+
+myList.count(x)  == x sayısından kaç tane olduğunu söyler.
+
+myList.remove(x) == x sayısını listeden kaldırır.
+
+myList.pop() == Listenin sonundaki sayıyı söyler.
+
+extend() ==  Bir listeyi mevcut listeye ekler.
+
+split() == Bir string'i belirli bir ayırıcı karakter (veya karakter dizisi) kullanarak parçalara ayırır. Varsayılan olarak, boşluk karakteri kullanılır.
+
+**************  XXX ÖRNEK XXX **************
+
+csv_data = input("CSV formatında veri girin (isim,soyisim,yaş): ")
+name, surname, age = csv_data.split(',')
+print(f"İsim: {name}")
+print(f"Soyisim: {surname}")
+print(f"Yaş: {age}")
+
+************
+
+isdigit() == Bir string'in tüm karakterlerinin rakam olup olmadığını kontrol eder. Eğer tüm karakterler rakam ise, bu metod True döner; aksi takdirde False döner.
+
+myList.insert(y,x) == y indexli sayıdan sonra x sayısını ekle.
+
+myList.sort() == Listeyi baştan sıralı yazdırır.
+
+reverse=True  === Parametresi ile sort() ve sorted(): Listeyi büyükten küçüğe sıralar.
+
+join() === Python'da stringleri birleştirmek için kullanılan bir yöntemdir. Bu metod, bir dizi stringi belirli bir ayırıcı ile birleştirerek tek bir string oluşturur.
+
+
+**************  XXX ÖRNEK XXX **************
+words = ["Python", "is", "awesome"]
+result = " ".join(words)
+print(result)
+
+************
+
+map()== Bir işlevi (function) bir iteratör (örneğin bir liste) üzerindeki her bir öğeye uygulamanızı sağlar. Bu, özellikle bir işlevi bir dizi veriye uygulamak istediğinizde kullanışlıdır.
+
+**************  XXX ÖRNEK XXX **************
+
+Yukarıda bulunan tanımlamarın kullanıldığı örneklendirme...
+
+not1=[]
+for i in range(5):
+    ad=input("Adlarını giriniz ==")
+
+for i in range(5):
+    (not_gir)=(input("Notları giriniz == "))
+    if not_gir.isdigit():
+        print("Geçerli not .İşlem devam ediyor...")
+        not1.append(int(not_gir))
+    else:
+        print("Geçersiz not...İşlem doğruluk sağlamaz...")
+
+enbüyük=max(not1)
+
+print("En yüksek not = ", enbüyük)
+
+enküçük= min(not1)
+
+print("En küçük not = ", enküçük)
+
+not1.sort()
+
+ortalama= sum(not1)/len(not1)
+
+print(not1)
+print(ortalama)
+
+************
+
+***************************************************************************************************************
+Sözlük...
+
+emptyDictionary = dict();
+
+fitness_dictionary={"X": 100, "Y"_200} == 2 listeyi birleştirip sözlük haline getirir.
+
+fitness_dictionary.keys() == X ve Y içeriklerini verir.
+
+fitness_dictionary.value() == 100 ve 200 değerlerini verir.
+
+fitness_dictionary["Z"] = 300  === Z içeriğini sözlüğe ekleyip buna 300 değerini verir.
+
+fitness_dictionary.get("U",0) == Sözlükte bulunmayan içeriği yazarsak hata vermesin diye 0 ifadesini çıkarsın anlamına gelir.
+
+***************************************************************************************************************
+Set...
+
+EmptySet= set()
+
+mySet2={10,20,30,30,10,20,10} == Çıktısı == 10,20,30 şeklinde olur.Sadece tekilleri çağırır. 
+
+union == 2 set ifadesini birleştirir.Ama ortakları almaz.
+
+intercextion == Kesişimleri bulur 
+
+***************************************************************************************************************
+Tuple...
+
+myTuple= ( 10 ,"a","b")
+
+Listeden farklı olarak eklenilen eleman değişmez. Ne elememan eklenir ne de eleman silinir.
+
+***************************************************************************************************************
+
+!!!!!!!1 String bir değeri printlemek için ;;
+
+my_list={10,20,30}
+
+print(f"my list : {my_list}")  == C# daki + işaretinden ziyade pythonda f yazarak o değeri yanına yazdırıyoruz.
+
+
+name = input("enter name:  ")
+print(f"welcome {name}")          == Normal kullanımlarda değişmez...
+ 
+
+!!!! Opsiyon olarak ; ;
+
+print("welcome" , name )
+
+***************************************************************************************************************
+!!!!!! Kolaylıklar 
+
+/////////////////////////////
+
+range(50)   ==     range (5,25)        == range (5,20,2) == İkişer ikişer 5 den 20 ye kadar.
+
+== 0 dan 50 ye kadar olan değerleri liste içersinde yazdırabiliriz
+
+list(range(50));
+
+/////////////////////////////
+for ix in range(len(my_list))
+     print(ix)                    == İndex olarak değerleri almak için...
+
+for element in enumerate (my_list)
+     print(element)               == İndex olarak almamızı sağlayan kütüphanedir.Yukarıdaki işlemin kolay yolu...
+
+
+/////////////////////////////
+
+from random import randit == 
+
+randint(0,100);;   == Random sayı üretme...
+
+my_list[randint (0 , len (mylist)-1) ==  Listenin içinden rastgele sayılar çağırır.
+
+
+from random import shuffle  == Sayıları karıştır...
+
+/////////////////////////////
+
+Oluşturulan 3 adet listeyi birleştirmek için kullanılır ; ;
+
+zipped_List = zip( LİST1 , LİST2 , LİST3 )  == Oluşan görünüm bize anlamsız gelebilir. Liste biçiminde görmek için;
+
+zipped_List = list(zip( LİST1 , LİST2 , LİST3 )) olarak yazmamız gerekiyor eğer ki list olarak görmek istiyor isek
+
+/////////////////////////////
+
+new_list= []
+
+my_string ="metallica"
+
+for element in my_string :
+     new_list.append(element)   == String ifadenin harflerini alarak bunu element listesine eklettik
+
+
+DAHA Kolay ı ;;
+
+new_list= [element for element in my_string]  == De aynı sonucu verir...
+
+
+new_number_list = [ num/2 for num in number_list ] === Her sayıyı 2 ye bölerek yeni bir listeye aktarım yaptı
+
+/////////////////////////////
+
+Liste içinde eleman var mı kontrolüü ;;
+
+if "c" : in my_dictiniory.values(): 
+      print("evet")
+
+Anahtar araması için de values yerine keys tagı gelmedilir
+
+/////////////////////////////
+
+Tek bir listede hem isim hem de yas tutuluyor. Yas değerlerini nasıl çekeriz ??
+
+yas_listesi = []
+
+for(isim , yas ) in age_name_list ;
+       yas_listesi.append(yas):
+
+***************************************************************************************************************
+DEQUE
+
+from collections import deque
+
+dq= deque(maxlen=3)
+
+dq.append(1) // sonuna 1 ekle..
+dq.append(2) 
+dq.append(3) 
+
+dq.append(4) == Deque mantığında yukarıda yazılan ilk append ( 1 ) i siler ve deque şöyle bir çıktı verir == [2,3,4]
+
+dq.clear() == Deque yu temizle.
+
+
+***************************************************************************************************************
+Yield
+
+Return gibi kullanılan bir sözlüktür.
+
+def creategenerator():
+	liste = range(1,4)
+	for i in liste:
+		yield i
+
+genarator = creategenerator()
+print(genarator)
+
+for i in genarator:
+	print(i)
+
+İleri seviylerde bir fotoğraf işlemi yapıldığında belleği zorlamamak için yapılır. Görüntü işleme kısmında çok daha iyi anlaşılacaktır. 
+
+
+
+***************************************************************************************************************
+FONSKİYONLAR …
+
+def hello() :
+    print("hello)
+
+
+def hello_name(name):
+      print("hello")   == Fonk tanımlaması yaparken eğer name ="" değeri girilirse ya da spesifik bir değer girilirse boş geçildiği takdirde o eleman yazdıırılmaya devam eder.
+      print (name) 
+hello_name(atıl)
+
+def summation(num1 ,num2 , num3 ):
+     result=num1+num2+num3       == Klasik return tanımı...
+     print (result)
+     return result
+
+!!!!!!!! **** !!!!!!!!
+
+def args_sum (*args): 
+     return sum(args)    == Ne kadar sayı verileceği belli olmayan fonk.da kullanılır.
+
+def kwargs_example(**kwargs): 
+    print(kwargs) 
+                                                           == Bizim için bir sözlük oluşturmuş gibi düşünelim
+kwargs_example( apple = 100 , banana = 150 , melon = 200)
+     
+!!!!!!!! **** !!!!!!!!
+
+***************************************************************************************************************
+PRATİK FONKSİYONLAR...
+
+*** DivideNumber denilen fonk yukarıda tanımlanmış olup gelen sayıları 2 ye böler...
+
+- list (map ( divideNumber , mylist))  == Bir fonksiyonda belirtilen listenin tüm elemanlarını map fonksiyonu aracılığıyla sırasıyla gönderilip liste de istenilen yapılandırmalar yapılır.
+
+
+*** Controlstring denilen ifade yukarıda tanımlanmış olup içinde atıl stringi var mı yok mu diye kontrol eder.
+
+- list(filter(controlstring,MyStringList)) ==  Filtreleme işlemlerini yaparak kolaylık sağlar.
+
+
+** Lambda tek satırlık fonksiyonlardır. Birden fazla parametre kabul ederler, fakat tek bir işlem yapabilirler.
+
+- multylambda= lambda num : num *3 == Sana bir numara verilirse o numarayı 3 le çarp
+
+
+== !!! *** ÖNEMLİ == !!! ***
+
+ list(map(lambda num: num/4 , numlist) = 4 e bölme fonksiyonunu hiç oluşturmadan lambda ve map fonksiyonlarını kullanabiliriz...
+
+== !!! *** ÖNEMLİ == !!! ***
+
+***************************************************************************************************************
+KAPSAM...
+
+Fonksiyonlar içinde tanımlanan değerleri ve fonksiyon dışında tanımlanan değerleri karşılaştıralım ;
+
+x = 20 
+
+def multipy (num):
+    x=5 
+    return : num * x
+ 
+Fosnksiyonu kullanıp num ifadesine değer verirsek  ; = multiply(10) = ; burdaki işlemde bize 5 değişkenini gönderir. Fakat print(x) gibi bir değerin sonucunu istersek bize vereceği değer 20 dir. Kapsam olarak bahsedilen kısım budur...
+
+Global kapsamı bir fonksiyon içinde tanımlandığında artık kapsam dışından çıkar : :
+
+y =10 
+def changeY()
+    global y 
+    y=5             == Bu fonksiyon artık dışarıda da çağırıldığında içeride de çağdılıdğında y fonksşyonu hep 5 e eşit olmak zorundadır.
+    print(y)
+
+***************************************************************************************************************
+CLASSLAR...   OOP...
+
+Klasik class tanımlamalarından farklı sadece metodlatı var diyebiliriz...
+
+class Person():
+    name=""
+    age=0
+    gender=""
+
+huseyin=Person()
+huseyin.name="Hyso Dgn"
+huseyin.age=20
+
+************        /////           ************
+
+def __init__(self):
+    print("executed")  == Her obje oluşturulduğunda çalışır.
+
+************ ///// ************
+
+def __init__(self,nameInput,ageInput,genderInput)
+     self.name = nameInput
+     self.age = ageInput                  == this kavramı gibi düşünülebilir ...
+     self.gender = genderInput
+
+
+== huseyin = Person ("Hyso" ,20 ,"Man") 
+
+************       /////        ************
+
+
+ !!!!!!!!!!!!!!!! == CLassların içine proportyleri yazmaya gerek yok . Name , Age , Gender gibi kavramları direkt self öğesi yardımıyla da tanımlayabiliriz.
+
+class Person()
+
+      def __init__(self,nameInput,ageInput,genderInput)
+         self.name = nameInput
+         self.age = ageInput                  
+         self.gender = genderInput
+       def PrintName(self) 
+          print(self.name) 
+
+tanımlamaları ile proporty denilen kavrama gerek kalmıyor. Self yardımıyla tanımlamalar ve yazdırma işlemleri yapılabilir.
+
+***************
+class Dog(): 
+    year = 7
+
+    def __init__(self,age)
+            self.age=age
+ 
+    def HumanAge(self)
+            return self.age * self.year
+             
+myDog=Dog(3)
+myDog.HumanAge() ==== 21 
+
+== İnsan yaşının köpek yaşının 7 katına eşit olduğunu gösteren class…
+
+***************************************************************************************************************
+INHERITANCE...
+
+Büyük projelerde çalıştığınız zaman projenin alt modül yani alt parçacıklardan oluştuğunu ve bu alt modüllerin birçok özelliklerinin ana modülde zaten olduğunu göreceksiniz. Bunun için her seferinde alt modüller için, özellikleri ve işlevleri  oluşturmanız gerekecek buda sizin için resmen bir işkenceye dönüşüyor olacak. İşte bunun için inheritance(miras alma) kavramı ortaya çıkıyor.
+
+class Musician():
+     def __init__(self)
+          self.name= name
+          print("musician class")
+
+     def test1(self)
+          print("test1")
+
+     def  test2 (self)
+          print("test2")
+
+
+class  MusicianPlus():
+      def __init__(self,name):
+      Musician.__init__(self,name)  == Musician sınıfını bu classa entegre ettik
+      print("musician plus")
+
+
+Artık bu durumdan sonra Musician classının sahip olduğu özellikler  MusicianPlus sınıfına da ait olmuş oldu...
+
+***************************************************************************************************************
+POLYMORPHİSM...
+
+Polimorfizm, kelime anlamı olarak “çok biçimlilik” manasına gelir. Nesne yönelimli programlama penceresinden baktığımızda ise farklı sınıf türlerinin, aynı arayüzü ya da metodu kendi içinde farklı bir şekilde tanımlayabilmesi anlamına gelir. Başka bir deyişle, aynı metot adının farklı nesnelerde farklı işler yapabilme prensibidir.
+
+class Banana():
+     def __init__(self,name)
+         self.name=name
+
+     def info(self)
+         return f"100 calories {self.name}"
+
+class Apple():
+     def __init__(self,name)
+         self.name=name
+
+     def info(self)
+         return f"150 calories {self.name}"
+
+== Tanımlanan bu 2 classın içinde de info methodu var . Bu yüzden ::: ;;;
+
+fruitList = [banana, apple]
+
+for fruit in fruitList:
+     print ( fruit.info())
+
+***************************************************************************************************************
+ENCAPSULATİON"
+
+Kapsülleme, methotların ve variable’ların erişimlerini kısıtlamak anlamına geliyor. Biz metotlara veya variable’lara direk erişme ve değiştirme kısıtı özelliğini ekliyoruz. Peki bunu niye yapıyoruz? Çünkü yazdığımız kodların değiştirilmemesi  yada değiştirdiğimiz değerlerin kontrollü olarak değiştirilmesi gerektiği için. İşte tam bu durumlarda kapsülleme sihirli bir değnek gibi imdadımıza yetişiyor. Şimdi örneklerle gösterelim.
+
+class Phone():
+      def __init__(self):
+          self.name = name
+          self.__price = price
+       
+      def info (self):
+          print (f"{self.name} price is : {self.__price}")
+
+iphone = Phone ("İphone 14, 500)
+
+== Burada tanımlanan __price = price ifadesi artık price ifadesinin kod blokları üzerinden değişmeyeceğini ifade eder.
+== Değişmesi için ;
+
+       def ChangePrice(self,price)
+          self.__price = price 
+
+== Yine Phone classı içerisine tanımlanmış olan farklı bir fonk. ile değiştirilebilir.
+
+*************************************************************************************************************** 
+ABSTRACTİON
+
+Soyutlama, nesnelerin veya sınıfların karmaşıklığını gizlemeyi ve sadece temel işlevselliği dışarıya sunmayı ifade eder. Bu, karmaşık detayların ve iç uygulamaların dış dünyadan gizlenmesini sağlar. Python'da, soyutlama, soyut sınıflar ve soyut metotlar aracılığıyla gerçekleştirilir.
+
+from abc import ABC , abstractmethod
+
+class Car(ABC)
+        
+        @abstracthmethod
+        def maxSpeed(self):
+          pass
+
+class Tesla(Car):
+        def maxSpeed(self):
+         print("200 km")
+
+tesla=Tesla();
+***************************************************************************************************************
+HATALARI ELE ALMAK...
+
+try: 
+  myAge=int (input("enter age "))
+  print (myAge*2)
+
+expect: 
+  print("enter your age !!!")
+
+
+!!!!!!!! == İstenilirse alınan hatanın ismi ile de işlem yapılabilir...
+
+expect ValueError :
+   print("enter your age !!") 
+
+!!!!!!!! ==
+
+while True :
+ try: 
+    myAge=int (input("enter age "))
+    print (myAge*2)            == Yaş doğru girilene kadar devam et...
+    break
+
+ expect: 
+    print("enter your age !!!")
+
+*************************************************************************************************************** 
+DOSYALARLA ÇALIŞMAK
+
+½writefile myfile.txt
+test1 
+test2                   == Dosyayı oluşturdu ve bunları ekledi
+test3 
+
+
+myFile= open("myfile.txt") == Dosyayı açtı
+
+myFile.read() = Dosyayı okudu . Fakat bir kez daha çağırılması durumunda boş olarak okur.Bu çözüm için ;
+
+myFile.seek(0) = Dosyayı başa aldı ve tekrar read yaparsak düzelecektir.
+
+myFile.close() = Kapatsanaa
+
+
+with open("myfile.txt") as myFile = Otomatik olarak yapacak...
+     myContent = muyFile.read() == Sürekli myContect öğesi çağırılabilir.
+
+with open ( "myfile.txt" , mode = "w") as MyNewFile: == w = write ..
+         MyNewFile.write("write 4 ")
+
+with open ( "myfile.txt" , mode = "r") as MyNewFile: == r = read ..
+
+with open ( "myfile.txt" , mode = "a") as MyNewFile: == a = append ..
+
+***************************************************************************************************************
+TYPE ANNOTATİON 
+
+name : str ="hyso" == Bu değişkenin veri tipi string…
+
+Mantığı kod okunurabilirliğini arttırmak... 
+
+***************************************************************************************************************
+
+----- !!!! **** ++++ ---- //// ----- !!!! **** ++++ ---- ////
+
+* new => python package  = Kendi paketimizi oluşturduk.
+
+* from animal.cat import meow
+
+* import hysomodule 
+form hysomodule import example_func  == İmport yapımı
+example_func 
+
+* __name__ == "__main__" ifadesi, Python betiğinin doğrudan çalıştırıldığında mı yoksa başka bir modülden mi çağrıldığını kontrol etmek için kullanılır.
+
+
+----- !!!! **** ++++ ---- //// ----- !!!! **** ++++ ---- ////
+***************************************************************************************************************
+**************  COUNTER METHODU ************** !!!!!!!!!!
+
+from collections import Counter
+
+count.most_common(n) == En çok tekrar eden n adet elamanı ve sayısını döndürür....
+
+count.elements("aabbbcc")== Her bir elemanın sıklığı kadar tekrar eden bir output gönderir...
+
+ÖRN/// :
+numbers=[1,2,2,3,3,3,4]
+count=Counter(numbers)
+most_common= count.most_common(1) == Hangi eleman en fazla tekrarlıyorsa....
+print(most_common)
+
+ÖRN/// :
+ef find():
+    user_İnput=input("Diziyi girin = ")
+    numbers=list(map(int,user_İnput.split()))
+    count=Counter(numbers)                             == 1 kez tekrar eden elemanları bulmak...
+    uniq=[num for num, cnt in count.items() if cnt==1]
+    uniq.sort()
+    print("Uniq==",uniq)
+find()
+
+ÖRN/// :
+def letter(text):
+    return  dict(Counter(text)) == Hangi harften kaç tane olduğunu gösterme...
+text=input("Enter = ")
+print(letter(text))
+
+***************************************************************************************************************
+YT DOWNLOAND...
+
+import pytube
+
+url= input("url :: ")
+
+path="DOSYA YOLU"
+
+pytube.YouTube(url).streams.get_highest_resolution().download()
+
+Hazır importlanmış verileri kullanarak ...
+
+Bu tür şeyleri git ve diğer alanlardan bulabilirsin..
+
+***************************************************************************************************************
+TURTLE GAME'S
+
+import turtle
+
+drawing_board= turtle.Screen()  // Ekren tanımlaması
+drawing_board.bgcolor("green")  // Arka Plan Rengi
+drawing_board.title("Python Turtle") // Başlık adı 
+
+
+turtle_instance = turtle.Turtle() // Tanımlanmış kaplumbağa gibi düşünülebilir.Obje !!
+turtle_instance.forward(100) // İleriye 100 px git 
+turtle.done()
+
+
+** Kare çizimlerini ya da diğer çizimleri kendin yapabilirsin
+
+Kodlama sırasında işin kolaylaşması için  4 adet ileri fonk tanımlamaktan ziyade bu işlemi şu şeklde yapabiliriz
+
+** KARE
+
+for i in  range(4):
+  turtle_instance.forward(100)
+  turtle_instance.left(90)
+
+** YILDIZ 
+
+for i in  range(5):
+  turtle_instance.right(144)
+  turtle_instance.forward(100)
+
+** 8 GEN
+import  turtle
+table=turtle.Screen()
+table.bgcolor("white")
+
+hyso=turtle.Turtle()
+
+for i in range(8):
+    hyso.forward(80)
+    hyso.left(45)
+turtle.done
+  
+Deneye Deneye bulabilirsin...
+
+
+" HAREKEETTTT ""
+
+import  turtle
+
+drow= turtle.Screen()
+drow.bgcolor("red")
+drow.title("Python")
+
+turtle_instance=turtle.Turtle()
+def forward():
+     turtle_instance.forward(100)
+
+def sol():
+    turtle_instance.left(20)
+
+def sağ():
+    turtle_instance.right(20)
+
+def clear():
+    turtle_instance.clear(
+
+
+drow.listen()
+drow.onkey(fun=forward , key="space")
+drow.onkey(fun=sol, key="a")
+drow.onkey(fun=sağ, key="d")
+drow.onkey(fun=clear, key="c")
+turtle.mainloop()
+'''
+Harekett...
+'''
+***************************************************************************************************************
+
+                             ****************************************************************
+                                                   KENDİ YAPTIĞIM OYUN
+                             ****************************************************************
+
+
+import turtle
+
+tablo = turtle.Screen()
+tablo.bgcolor("light blue")
+
+çizim1 = turtle.Turtle()
+
+while True:
+    seçenek = input(
+        "Eğer değerleri kendiniz vermek istiyorsanız 'a', klavyeden yapmak istiyorsanız 'b'yi tuşlayabilirsiniz: ").lower()
+
+    if seçenek == "a":
+        count = input("Adet giriniz: ")
+        counts = int(count)
+
+        size = input("Uzunluğu ne kadar olsun: ")
+        sizes = int(size)
+
+        yön = input("Sağa mı sola mı? Lütfen 'right' veya 'left' diye belirtiniz: ").lower()
+        acı = int(input("Açı değerini giriniz: "))
+
+        for i in range(counts):
+            çizim1.forward(sizes)
+            if yön == "left":
+                çizim1.left(acı)
+            elif yön == "right":
+                çizim1.right(acı)
+            else:
+                print("Doğru değer giriniz.")
+
+    elif seçenek == "b":
+        print("b seçildi. Bu kısımda başka işlemler yapabilirsiniz.")
+
+        def ileri():
+            çizim1.forward(10)
+
+        def geri():
+            çizim1.backward(10)
+
+        def sola():
+            çizim1.left(15)
+
+        def sağa():
+            çizim1.right(15)
+
+        tablo.listen()
+        tablo.onkey(ileri, "w")
+        tablo.onkey(geri, "s")
+        tablo.onkey(sola, "a")
+        tablo.onkey(sağa, "d")
+        tablo.mainloop()
+
+    else:
+        print("Geçersiz seçenek, lütfen 'a' veya 'b' tuşlayınız.")
+
+    devam = input("Devam etmek istiyor musunuz? (Evet için 'e', Hayır için 'h'): ").lower()
+    if devam == 'h':
+        break
+
+turtle.done()
+
+
+
+***************************************************************************************************************
+TKİNTER
+
+import tkinter 
+
+window = tkinter.Tk()
+window.title("Python Tkinter")
+window.minsize(width=450 , height=300)  == Window tanımlama...
+window.mainloop()
+
+label=tkinter.Label(text="this page")
+label.config(bg="black" , fg="white") == Windowa label ekletme...
+label.pack()
+
+
+def click():
+    print("buton geldidii")
+
+button= tkinter.Button(text="bu bouton" , command=click) == Button tanımlama...
+button.pack() 
+
+
+ef click():
+    user_input =entry.get() == Kullanıcının girdiği değeri yazdırsın...
+    print(user_input)
+
+***************************************************************************************************************
+PACK VE PLACE 
+
+label.pack(side="left") == Label ı sola konumlandır
+
+label.place(x=0,y=0) == Kordinatlara göre konumlandırır == Verdiğin değerlere göre ayarlama yapabilirsin. Weight ya da height üzerinden ayarla...
+
+***************************************************************************************************************
+GRİD
+
+Tek bir adet tanımlanmış buton ya da label vari yapılar mevcut ise isterseniz 500 e 500 yazın bir değişiklik olmayacaktır.
+2 label in bulunduğu yerde 1 ve 0 değişkenleri kullanılabilir.
+
+label.grid(row=0 , column=0)
+
+***************************************************************************************************************
+TEXT
+
+label= label(text="...") 
+
+def button():
+   print("button clicked)
+
+button = Button(text="..." , command= button)
+button.pack()
+
+PADX == X in padding değeri...
+PADY == Y nin padding değeri...
+
+
+text=Text()
+print(text.get("1.0" , END ) == Entry tanımlamasında yoktu ama text de dikkat edilmesi gereken bir nokta...
+                             == Eğer 2.0 tanımlansaydı 2. satırdan itibaren alınması gerekecektir...
+                             == Eğer 1.3 tanımlarsak 1. satırın 3. indexte bulunan değerden başlar...
+
+text.focus() = Direkt o texten değer almaya başlatır...
+
+***************************************************************************************************************
+WİDGET ÖRNEKLERİ
+
+scale=my_scale( from =0 , to=50 ) == Scroll bar gibi düşünebilirsin... 
+
+def scale_delected(value): == Senden döndürmek istediği bir değer ekler.Hata sonucunda yazacağın değerlerin çok da bi önemi yoktur...
+      print(value) 
+
+/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/
+
+spinbox = Spinbox(from =0 , to=50 ) Oklar yardımıyla değer seçme...
+
+def spinbox_selected():
+      print(spinbox.get())
+
+/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/
+
+check_state=IntVar()
+checkbutton=Checbutton(text="check" , variable=check_state)
+
+def check_selected():
+   print( check_state.get())
+
+***************************************************************************************************************
+LİSTBOX
+
+radio_checked_state=IntVar()
+
+radio_button = RadioButton(text="..." value=10 , variable= radio_checked_state, command= radiobutton_selected)
+
+5 ADET RADİO BUTTON OLDUĞUNU VARSAYALIM
+
+def radiobutton_selected():
+      print(radio_checked_state.get())
+
+/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/
+
+listbox=Listbox()
+
+-- Herhangi bir liste olduğunu düşün...
+
+for name in XXXX ( liste adı ):
+     listbox.insert()
+
+for i in range(len(XXX))
+     listbox.insert(i.XXX[i])
+***************************************************************************************************************
+İMAGE 
+
+photo = PhotoImage(file="indir.png")
+photo_label = Label(image=photo, width=200, height=200) == LABEL KULLANIMI...
+photo_label.pack()
+***************************************************************************************************************
+MESSAGE BOX               
+
+from tkinter import messagebox
+
+def save():
+    title=entry3.get()
+    message = text.get("1.0" , END)
+    master_screet= entry2.get()
+
+    if(len(title)==0 or len(message)==0 or len(master_screet)== 0 ):
+        messagebox.showerror(title="Error" , message="Lütfen ilgili alanları doldurun...")
+
+***************************************************************************************************************
+SECRET NOTE 
+
+                               /*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/
+
+                                       !!!   ÖNEMLİ UYGULAMA   !!!
+                                                   ????
+
+                               /*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/
+
+
+-- UI TANIMALAMARI İÇİN ;
+
+window=tkinter.Tk()
+window.title("HEllo")
+window.minsize(width=575 , height= 575)
+
+'''
+canvas= Canvas(height=200, width=200)
+canvas.create_image(100,100,image=photo
+'''
+
+photo=PhotoImage(file="indir.png")
+photo_label=Label(image=photo ,width=200, height=200)
+photo_label.pack()
+
+label=tkinter.Label(text="Dosya Adını giriniz ...==")
+label.config( fg="black",padx=5, pady=5)
+label.pack()
+
+entry3=Entry()
+entry3.pack()
+
+label2=tkinter.Label(text="Dosyaya girilecek ifadeler... =")
+label2.pack()
+
+text=Text(width=20, height=10)
+print(text.get("1.0" , END))
+text.pack()
+
+label3=tkinter.Label(text="Şifrenizi giriniz... = ")
+şifre=str(label3)
+label3.config(fg="black" , padx=5 , pady=5)
+label3.pack()
+
+entry2=Entry()
+entry2.pack()
+
+-- GİRİLEN DEĞERLERİN KAYIT EDİLMESİ İÇİN ;
+
+def button_clicked():
+    label = entry3.get()
+    label2=text.get("1.0" ,END)
+    label3 = entry2.get()
+    print(f"Kaydediliyor.... {label}  / {label2} / {label3}")
+button=tkinter.Button(text="Kaydet" , bg="white" , fg="black" , padx=5 , pady=5 , command=save)
+button.pack()
+
+-- DOSYALARIN KAYIT İŞLEMLERİ İÇİN ;
+
+def save():
+    title=entry3.get()
+    message = text.get("1.0" , END)
+    master_screet= entry2.get()
+
+    if(len(title)==0 or len(message)==0 or len(master_screet)== 0 ):
+        messagebox.showerror(title="Error" , message="Lütfen ilgili alanları doldurun...")
+    else:
+        with open("my_secret.txt", "a") as data_file:
+            data_file.write(f"\n {title}\n{message}")
+            entry3.delete("0",END)
+            text.delete("0",END)
+            entry2.delete("0",END)
+
+-- ENCRİPT İŞLEMİ ;
+
+def encode(key, clear):
+    enc = []
+    for i in range(len(clear)):
+        key_c = key[i % len(key)]
+        enc_c = chr((ord(clear[i]) + ord(key_c)) % 256)
+        enc.append(enc_c)
+    return base64.urlsafe_b64encode("".join(enc).encode()).decode()
+
+def decode(key, enc):
+    dec = []
+    enc = base64.urlsafe_b64decode(enc).decode()
+    for i in range(len(enc)):
+        key_c = key[i % len(key)]
+        dec_c = chr((256 + ord(enc[i]) - ord(key_c)) % 256)
+        dec.append(dec_c)
+    return "".join(dec)
+
+-- DECRİYPT İŞLEMİ ;
+
+def decrypt_message():
+    enc_message = text.get("1.0", END).strip()
+    master_secret = entry2.get()
+
+    if len(enc_message) == 0 or len(master_secret) == 0:
+        messagebox.showerror(title="Error", message="İlgileri yerleri doldurunuz...")
+    else:
+        try:
+            decrypted_message = decode(master_secret, enc_message)
+            text.delete("1.0", END)
+            text.insert("1.0", decrypted_message)
+        except Exception as e:
+            messagebox.showerror(title="Error", message="Decrypt işlemi sırasında bir hata oluştu. Lütfen doğru şifreyi kullandığınızdan emin olun.")
+
+-- BÜTÜN KODLARIN BİRLEŞTİRİLMİŞ HALİ 
+
+-++++++++++++++++++++++++++++++++++-
+
+import tkinter
+from tkinter import *
+from tkinter import messagebox
+import base64
+
+def encode(key, clear):
+    enc = []
+    for i in range(len(clear)):
+        key_c = key[i % len(key)]
+        enc_c = chr((ord(clear[i]) + ord(key_c)) % 256)
+        enc.append(enc_c)
+    return base64.urlsafe_b64encode("".join(enc).encode()).decode()
+
+def decode(key, enc):
+    dec = []
+    enc = base64.urlsafe_b64decode(enc).decode()
+    for i in range(len(enc)):
+        key_c = key[i % len(key)]
+        dec_c = chr((256 + ord(enc[i]) - ord(key_c)) % 256)
+        dec.append(dec_c)
+    return "".join(dec)
+
+def save():
+    title = entry3.get()
+    message = text.get("1.0", END).strip()
+    master_secret = entry2.get()
+
+    if len(title) == 0 or len(message) == 0 or len(master_secret) == 0:
+        messagebox.showerror(title="Error", message="Lütfen ilgili alanları doldurun...")
+    else:
+        message_enc = encode(master_secret, message)
+        with open("my_secret.txt", "a") as data_file:
+            data_file.write(f"\n{title}\n{message_enc}")
+            entry3.delete(0, END)
+            text.delete("1.0", END)
+            entry2.delete(0, END)
+
+def decrypt_message():
+    enc_message = text.get("1.0", END).strip()
+    master_secret = entry2.get()
+
+    if len(enc_message) == 0 or len(master_secret) == 0:
+        messagebox.showerror(title="Error", message="İlgileri yerleri doldurunuz...")
+    else:
+        try:
+            decrypted_message = decode(master_secret, enc_message)
+            text.delete("1.0", END)
+            text.insert("1.0", decrypted_message)
+        except Exception as e:
+            messagebox.showerror(title="Error", message="Decrypt işlemi sırasında bir hata oluştu. Lütfen doğru şifreyi kullandığınızdan emin olun.")
+
+window = tkinter.Tk()
+window.title("Hello")
+window.minsize(width=575, height=575)
+
+photo = PhotoImage(file="indir.png")
+photo_label = Label(image=photo, width=200, height=200)
+photo_label.pack()
+
+label = tkinter.Label(text="Dosya Adını giriniz ...==")
+label.config(fg="black", padx=5, pady=5)
+label.pack()
+
+entry3 = Entry()
+entry3.pack()
+
+label2 = tkinter.Label(text="Dosyaya girilecek ifadeler... =")
+label2.pack()
+
+text = Text(width=20, height=10)
+text.pack()
+
+label3 = tkinter.Label(text="Şifrenizi giriniz... = ")
+label3.config(fg="black", padx=5, pady=5)
+label3.pack()
+
+entry2 = Entry()
+entry2.pack()
+
+button = tkinter.Button(text="Kaydet", bg="white", fg="black", padx=5, pady=5, command=save)
+button.pack()
+
+button2 = tkinter.Button(text="Decrypt", bg="white", fg="black", pady=5, padx=5, command=decrypt_message)
+button2.pack()
+
+window.mainloop()
+
+
+** FONKSİYONLAR İÇİNDE GENEL ANLAMDA ENRTY BLOKLARINI KULLANDIĞINA DİKKAT ET...
+** ENCODE VE DECODE FONKSİYONLARI HAZIR OLDUĞUNDAN SADECE MANTIĞINA DİKKAT ET ...
+** İMAGE KULLANIMINI YENİ GÖRDÜK. NASIL KULLANILDIĞINA DİKKAT ET...
+
+-++++++++++++++++++++++++++++++++++-
+
+***************************************************************************************************************
+NUMPY KÜTÜPHANESİ 
+
+list3 = list4.copy()
+
+0 dan 150 ye 25 adet tanımlanmış bir random listesi olsun.
+
+= new_array = np.random.randint(1,150,25)
+
+Bu listedeki hangi değerlerin 50 den büyük olduğunu bulalım...
+
+= result_array = new array > 50
+
+= new_array[result_array] == SON !!!!!!!! 
+
+DİĞER FONKSİYONLARA NUMPY.ORGDAN ERİŞEBİLİRSİN...
+
+***************************************************************************************************************
+PANDAS KÜTÜPHANESİ
+
+*** Tanımlanmış bir sözlük olduğunu varsayalım. Bu sözlük üzerinde yapılabilecek işlemlerden birincisi Series tagı
+Sözlük içerisiğinin "JAMES":50 ,.. gibi olduğu varsayılırsa 
+
+pd.Series(my_dict) == Excel vari bir görüntü oluşturur...
+
+my_series = pd.Series(data= new_numpy_array , index= name_list )
+
+*** Data Frame kullanımı ;
+
+2 adet kolon olduğunu varsay. 1.si isim , ikincisi colon. Bu ifadeler aynı excel tablosunda oldğuğ gibi değerleri betimlemek için kullanılacak. Kullanım için ;
+
+my_dict = [100, 200, 300, 400, 450, 185, 167, 854, 289]
+my_name = ["james", "Cemil", "Cemal", "Rob", "k", "f", "g", "c", "m"]
+my_sports = ["Volleybol", "Tennis", "Futbol", "Boks", "Koşu", "Yüzme", "Masa Tenisi", "KickBox", "Bisiklet"]
+
+mys_data_frame = pd.DataFrame(my_data) == my datadan kastı girilen değerler...
+
+          !!!!!! new1_my_frame = pd.DataFrame({'Calories': my_dict, 'Sports': my_sports}, index=my_name)!!!!!
+
+new_data_frame = pd.DataFrame(my_data , index=my_names , columns= my_columns)== Oluşturulan 2 kolon ekleniyor...
+
+new_data_frame["XXX"] == XXX e ait verileri getirdi...
+
+new_data_frame.loc["xxx"] == xxx e ait verileri getirdi. Ama bu isim kolonundan...
+
+new_data_frame.iloc[3]== 3. indexteki değeri yazdır...
+
+my_data_frame["Apr"] == new data_frame["Mar"]*2 == April değerini mar değerinin 2 katına eşledik...
+ 
+                   !!!!! new1_my_frame['Price']= new1_my_frame['Calories']*2.4 !!!!!
+
+my_data_frame.drop("Apr", axis=1) == Colonlardan Apr isimli kolonu sil
+
+my_data_frame.drop("Rob", axis=0) == Rowlardan Rob isimli kolonu sil ...
+
+YAPILAN DROP İŞLEMLERİ KALICILIK SAĞLAMAZ. KALICILIK İÇİN; ; ; 
+
+my_data_frame.drop("Apr", axis=1, inplace=True) ifadesi kullanılmalıdır...
+
+boolean_frame = my_data_frame > 25 == 25 ten büyük değerleri listele...
+        
+                    !!!!!! boolean_frame=new1_my_frame['Price'] >350 !!!!!
+
+my_data_frame[boolean_frame] == Tablodan değerleri göster...
+
+my_data_frame[new_data_frame["Mar"] > 25 ] == Mart aynının 25 den büyük değerlerini getir...
+
+new_data_frame.reset_İndex() == İndexleri kendine göre düzenler ya da ekler...
+
+new_data_frame.set_index("NewIndex") == Girilen yeni kolona göre işlem yapılması...
+
+new_data_frame.drop("NewIndex", axis=1 , inplace=True) == Baştaki değere döndürdük
+
+3. olarak eksik veriler üzerinde çalışalım ; ;
+
+my_dict={"James":{40,30,np.nan}} == Son hafta çalışılmamışş…
+
+my_data_frame=pd.DataFrame(my_dict)
+
+my_data_frame.dropna() == nan değerleri sil...
+
+my_data_frame.dropna(axis=1, thresh=2) == 2 nan olan değerler silindi...
+
+my_data_frame.filna(20)== nan olanların hepsinin yerine 20 yazdırdı...
+
+4. olarak bu verileri gruplayalım...
+
+group_object = salary_frame.groupby("XXX")== XXX e göre gruplandır
+
+group=object.min("Salary") == Salary değerinin minimumunu bul...
+
+group_object.describe() == Özet gösterir...
+
+pd.concat([1.tablo , 2.tablo , 3.tablo]) == Tabloları birleştirdi...
+
+pd.merge( 1.tablo , 2.tablo , on="Sports") == Sports tablosuna göre birleştirme...
+
+new_salary_frame["Name"].unique() == İsimleri listeler...
+
+new_salary_frame["Name"].nunique() == İsimlerin sayısını gösterir...
+
+def grossToNet(salary):
+    return salary = 0.65
+
+new_salary_frame["Salary"].apply(grossToNet)   == Fonksiyonu kolona uyguladık...
+
+!! dataframe=.loc[dataframe["Department"] == "Software Development"].groupby("Tittle).mean)
+   == Depertmanda çalışan software developmentlerin ortalamasını getirdi.( junior , senior olarak)...
+***************************************************************************************************************
+MATPLOTLİB KÜTÜPHANESİ
+
+Tanımlı değerler aşağıdaki gibidir...
+
+age_list=[20,25,30,35,40,45,50,55,60]
+weight_list=[70,75,80,83,85,90,92,95,100]
+
+age_list_np= np.array(age_list)
+weight_list_np=np.array(weight_list)
+
+print(plt.plot(age_list_np,weight_list_np)) == Grafiğe dökerek işleme başlar...
+plt.show() 
+
+plt.xlabel("Age") // X ekseni
+plt.ylabel("weight") // Y ekseni
+plt.title("AGE - WEİGHT ")
+
+print(plt.plot(age_list_np,weight_list_np,"r")) == Verilen r değeri dengi ifade eder...
+
+print(plt.plot(my_numpy1, my_numpy2, "y*")) == " * " ile grafik çizer...
+
+my_numpy1= np.linspace(0.15,20)
+my_numpy2= my_numpy1**3.456
+
+plt.subplot(1,2,1) == 1 row 2 kolon 1. grafik 
+plt.plot(my_numpy1,my_numpy2,"r--")
+plt.subplot(1,2,2)  == 1 row 2 kolon 2.grafik        == Aynı grafik çizimi için...
+plt.plot(my_numpy1,my_numpy2, "g*")
+plt.show()
+
+plt.subplot(1,2,1)
+plt.plot(my_numpy1,my_numpy2,"r--")
+plt.subplot(1,2,2)                           == 2 ayrı grafik çizimi için...
+plt.plot(age_list_np,weight_list_np,"g-")
+plt.show() 
+ 
+ ********* FİGÜRE *********
+Aynı ekranda gösrerim...	
+
+figure=plt.figure()
+my_axes= figure.add_axes([0.1,0.1,0.5,0.5])
+my_axes.plot(my_numpy1,my_numpy2 , "g")
+my_axes.set_xlabel("X data ")
+my_axes.set_ylabel("Y data")
+
+my_axes1= figure.add_axes([0.3,0.3,0.9,0.9])
+my_axes1.plot(age_list_np,weight_list_np, "r")
+my_axes1.set_xlabel("X data LARGE")
+my_axes1.set_ylabel("Y data LARGE")
+my_axes1.set_title("Large Gragh")
+
+
+(figure,my_axes) = plt.subplots(2,1) 
+my_axes.plot(my_numpy1,my_numpy2)
+my_axes.plot(age_list,weight_list)   ==  alt grafik çizimleri...
+
+(new_fig , new_axe) = plt.subplots()
+new_axe.plot(my_numpy1,my_numpy2+3)
+plt.show()
+
+
+plt.scatter(my_numpy1,my_numpy2) == Dağıtarak çizer...
+
+                                /*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/
+
+                   ****                 !!!   ÖNEMLİ UYGULAMA   !!!          ****
+                                                   ????
+
+                               /*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/
+
+
+----------- GİRİLEN DENKLEM DEĞERLERİNİ GRAFİĞE DÖNÜŞTÜRME
+
+import tkinter as tk
+from tkinter import messagebox
+import numpy as np
+import matplotlib.pyplot as plt
+import math
+
+def calculate_and_plot():
+    try:
+        # Kullanıcıdan girdi alma
+        a1 = float(entry1.get())
+        b1 = float(entry2.get())
+        c1 = float(entry3.get())
+
+ --------------------------------------- # Delta (diskriminant) hesapla
+        delta = (b1**2 - 4*a1*c1)
+        deltas = int(delta)
+
+ --------------------------------------------------- # Denklemi ekrana yazdır
+        denklem = f"{a1}*x^2 + {b1}*x + {c1}"
+        print(f"Denkleminiz == {denklem}")
+--------------------------------------------------------------  # Kökleri hesapla
+        if delta >= 0:
+            x1 = (-b1 + math.sqrt(deltas)) / (2 * a1) == Deltas ın kökünü bulur..
+            x2 = (-b1 - math.sqrt(deltas)) / (2 * a1)
+            if delta == 0:
+                print(f"Bitişik kök mevcut - kökler ise == {x1}")
+            elif delta > 0:
+                print(f"2 adet kök var == {x1} - {x2}")
+        else:
+            x1 = x2 = None
+            messagebox.showerror("Hata", "Kökleriniz mevcut değil...")
+            return
+
+    except ZeroDivisionError: ==== Değerler boş girilirse gelen hata..???
+        messagebox.showerror("Hata", "Başkatsayı 0 olarak girilemez...")
+        return
+    except ValueError:
+        messagebox.showerror("Hata", "Lütfen geçerli sayılar giriniz.")
+        return
+
+ ----------------------------------------- # Grafik için x ve y değerlerini oluşturma
+    x = np.linspace(-10, 10, 400)
+    y = a1 * x**2 + b1 * x + c1
+
+    # Grafiği çizme
+    plt.figure(figsize=(10, 6)) == figürün genişliğinin 10 inç, yüksekliğinin ise 6 inç olacağı anlamına gelir..??
+    plt.plot(x, y, label=f'{a1}*x^2 + {b1}*x + {c1}', color='blue')
+
+    # Kökleri grafikte işaretleme
+    if x1 is not None:
+        plt.plot(x1, a1*x1**2 + b1*x1 + c1, 'ro', label=f'Kök 1: {x1:.2f}')
+    if x2 is not None:
+        plt.plot(x2, a1*x2**2 + b1*x2 + c1, 'go', label=f'Kök 2: {x2:.2f}')
+
+  ------------------------------  # Grafik başlıkları ve etiketleri
+    plt.title('İkinci Dereceden Denklem Grafiği')
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.axhline(0, color='black', linewidth=0.5)
+    plt.axvline(0, color='black', linewidth=0.5)
+    plt.grid(True)
+    plt.legend()
+
+    # Grafiği gösterme
+    plt.show()
+
+-------------------------------------------------- # Tkinter arayüzü oluşturma
+window = tk.Tk()
+window.title("İkinci Dereceden Denklem Hesaplayıcı")
+window.geometry("400x300")
+
+----------------------------------------------------- # Kullanıcıdan girdi almak için etiketler ve giriş kutuları
+label1 = tk.Label(window, text="Başkatsayısı giriniz (a):")
+label1.pack()
+entry1 = tk.Entry(window)
+entry1.pack()
+
+label2 = tk.Label(window, text="X'e bağlı 2. değişkeni giriniz (b):")
+label2.pack()
+entry2 = tk.Entry(window)
+entry2.pack()
+
+label3 = tk.Label(window, text="Sabit sayıyı giriniz (c):")
+label3.pack()
+entry3 = tk.Entry(window)
+entry3.pack()
+
+-------------------------------------------------- # Hesapla ve grafiği göster butonu
+button = tk.Button(window, text="Hesapla ve Grafiği Göster", command=calculate_and_plot)
+button.pack()
+
+----------------------------------------- # Tkinter ana döngüsünü başlatma
+window.mainloop()
+
+                               /*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/
+
+                        ****          !!!   ÖNEMLİ UYGULAMA   !!!          ****
+                                                   ????
+
+                               /*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/
+
+---- Şirketin aylık kazanç ve kayıplarına göre net gelir grafiklerinin çizilmesi...
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+data = {
+    'Ay': ['O', 'Ş', 'M', 'N', 'May', 'H', 'T', 'A', 'E', 'Ek', 'K', 'Ara'],
+    'Kazanç': [1000, 1500, 1200, 800, 950, 1300, 1600, 1700, 900, 1100, 1250, 1400],
+    'Kayıp': [200, 300, 150, 100, 250, 200, 300, 400, 600, 400, 350, 200]
+}
+df = pd.DataFrame(data)
+
+df['Net Gelir'] = df['Kazanç'] - df['Kayıp']
+
+plt.figure(figsize=(12, 4))
+
+plt.subplot(1, 3, 1)
+plt.plot(df['Ay'], df['Kazanç'],"r--")
+plt.title('Aylık Kazanç')
+plt.xlabel('Ay')
+plt.ylabel('Miktar')
+
+plt.subplot(1, 3, 2)
+plt.plot(df['Ay'], df['Kayıp'],"r--")
+plt.title('Aylık Kayıp')
+plt.xlabel('Ay')
+plt.ylabel('Miktar')
+
+plt.subplot(1, 3, 3)
+plt.plot(df['Ay'], df['Net Gelir'])
+plt.title('Net Gelir')
+plt.xlabel('Ay')
+plt.ylabel('Miktar')
+
+plt.tight_layout()
+plt.show()
+
+print(df)
+
+
+***************************************************************************************************************
+İNTERNET İLE ÇALIŞMAK
+
+response =requests.get("https://raw.githubusercontent.com/atilsamancioglu/K21-JSONDataSet/master/crypto.json")
+print(response)
+
+for cry in response.json():
+    print(cry["currency"]) == Apinin anahtarlarını almak....
+
+def get_cry():
+    response = requests.get("https://raw.githubusercontent.com/atilsamancioglu/K21-JSONDataSet/master/crypto.json")
+    if response.status_code == 200:
+        return response.json()  
+    else:
+        print("Hata oluştu:", response.status_code) == Gelen kod 200 yani başarılıydı. Onu kontrol ettik...
+        return []
+
+crypt_response = get_cry()
+crypto_name = input("Adı gir crypto: ")
+for crypto in crypt_response:
+    if crypto["currency"] == crypto_name:
+        print(f"{crypto_name} fiyatı: {crypto['price']}") == Json formatındaki veriden değer çekmek...
+        break
+else:
+    print("Kripto para bulunamadı.")
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!********* DİKKAT ***!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!***********************
+
+import requests
+import  threading
+import  time
+
+def get_data_sync(urls):
+    st=time.time()
+    json_array=[]
+    for url in urls:
+        json_array.append(requests.get(url).json())
+    et=time.time()
+    elapsed_time=et-st
+    print(f"Exevution Time == {elapsed_time}") == Daha gelişmişi...
+    return json_array
+
+urls=["https://postman-echo.com/delay/3"] * 10
+
+get_data_sync(urls)
+
+st = time.time(): Fonksiyonun başladığı zamanı kaydeder.
+json_array = []: JSON verilerini toplayacağınız boş bir liste oluşturur.
+
+for url in urls: urls listesindeki her URL için döngü başlatılır.
+
+requests.get(url): Her URL'ye HTTP GET isteği gönderir.
+
+.json(): Yanıtın JSON verilerini çıkarır.
+
+json_array.append(...): JSON verisini json_array listesine ekler.
+
+et = time.time(): Fonksiyonun bitiş zamanını alır.
+elapsed_time = et - st: Başlangıç ve bitiş zamanları arasındaki farkı hesaplar.
+print(f"Execution Time == {elapsed_time}"): Geçen süreyi ekrana yazdırır.
+
+urls = ["https://postman-echo.com/delay/3"] * 10: Aynı URL'yi 10 kez içeren bir liste oluşturur. Bu URL, Postman Echo'nun 3 saniyelik bir gecikme simülasyonu yaptığı bir endpoint'tir.
+get_data_sync(urls): urls listesindeki URL'lere HTTP GET isteği gönderir ve sonuçları toplar.
+
+** Burda yapılan işlem urlden veri çekiyor ve çekilen bu verinin zamanını hesaplıyor.
+
+***************************************************************************************************************
+THREADİNG
+
+from threading import Thread
+
+t= Thread( target=print,args=[1])
+
+t.run() == Çalıştırma...
+
+join() = Therad bitene kadar bekler...
+
+
+
+
+
+
+
+
+
